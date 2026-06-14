@@ -29,4 +29,11 @@ cp -f "$ROOT_DIR/dotfiles/Fastfetch/config.jsonc" \
 cp -rf "$ROOT_DIR/dotfiles/Wallpapers/"* \
 ~/Pictures/Wallpapers/
 
+mkdir -p ~/.local/bin
+
+cp -f "$ROOT_DIR/scripts/muda_wallpaper.sh" \
+~/.local/bin/muda_wallpaper.sh
+
+chmod +x ~/.local/bin/muda_wallpaper.sh
+
 echo "Dotfiles aplicados."
