@@ -7,11 +7,8 @@ if status is-login
 end
 
 if status is-interactive
-    fastfetch
-end
-
-if status is-interactive
 	#Comandos para rodar em sessões interativas
+    fastfetch
 
 	#Desativar a mensagem de Boas-Vindas do fish
 	set fish_greeting ''
@@ -37,3 +34,4 @@ set -gx RADV_PERFTEST aco
 set -gx AMD_DEBUG ngg
 set -gx GTK_IM_MODULE xim
 set -gx QT_IM_MODULE xim
+set -g fish_greeting
