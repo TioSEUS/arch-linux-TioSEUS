@@ -39,7 +39,8 @@ ttf-fira-code \
 qt5-wayland \
 qt6-wayland \
 polkit-gnome \
-xdg-desktop-portal-hyprland
+xdg-desktop-portal-hyprland \ 
+xdg-user-dirs
 
 if ! command -v paru >/dev/null; then
 
@@ -72,6 +73,9 @@ if command -v spf >/dev/null 2>&1; then
 else
     echo "[ERRO] Superfile não encontrado."
 fi
+
+#Criar diretórios padrões!!
+xdg-user-dirs-update
 
 # Fcitx5 (cedilha e input method)
 sudo pacman -S --needed --noconfirm \
