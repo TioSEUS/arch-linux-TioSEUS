@@ -13,7 +13,7 @@ if ! command -v paru &> /dev/null; then
 fi
 
 echo "--> Instalando ferramentas nativas, de terminal e interface..."
-# CORRIGIDO: Removido o jdk21 duplicado. Deixando apenas o jre21 para não dar conflito.
+# Pacotes essenciais oficiais do Pacman, incluindo Prism Launcher e nwg-look
 sudo pacman -S --noconfirm --needed \
     hyprland sddm waybar kitty fish rofi btop fastfetch \
     pipewire pipewire-alsa pipewire-pulse pipewire-jack wireplumber pavucontrol \
@@ -22,16 +22,16 @@ sudo pacman -S --noconfirm --needed \
     qt5-wayland qt6-wayland xdg-desktop-portal-hyprland polkit-gnome \
     xdg-user-dirs brightnessctl pamixer wl-clipboard grim slurp mpv \
     obs-studio steam gnome-disk-utility hyprpaper mangohud discord \
-    opencl-mesa jre21-openjdk prismlauncher nwg-look
+    opencl-mesa prism-launcher nwg-look
 
 # Ativando daemons base
 sudo systemctl enable --now NetworkManager bluetooth sddm.service
 
 echo "--> Instalando pacotes do AUR via Paru..."
+# Apenas o essencial, usando ghostty-bin para não estourar a memória RAM
 paru -S --noconfirm --needed \
-    ghostty-git brave-bin visual-studio-code-bin anydesk-bin \
-    davinci-resolve heroic-games-launcher-bin lact darkman \
-    xdg-desktop-portal-gtk
+    ghostty-bin brave-bin visual-studio-code-bin anydesk-bin \
+    lact darkman xdg-desktop-portal-gtk
 
 sudo systemctl enable --now lactd
 
