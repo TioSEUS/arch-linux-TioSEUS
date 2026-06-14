@@ -2,6 +2,8 @@
 # ================================================
 # Arch Linux Dotfiles Installer - TioSEUS (Versão Final)
 # ================================================
+exec > >(tee install.log)
+exec 2>&1
 
 set -euo pipefail
 
