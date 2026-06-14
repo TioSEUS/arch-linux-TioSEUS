@@ -59,3 +59,9 @@ paru -S --needed --noconfirm \
 brave-bin \
 visual-studio-code-bin \
 darkman
+
+echo "[INFO] Instalando Superfile..."
+
+if ! command -v spf >/dev/null 2>&1; then
+    bash -c "$(curl -sLo- https://superfile.netlify.app/install.sh)"
+fi
