@@ -15,6 +15,10 @@ flatpak remote-add \
 flathub \
 https://dl.flathub.org/repo/flathub.flatpakrepo
 
-if command -v fish >/dev/null; then
-    chsh -s "$(which fish)" "$USER"
+if command -v fish >/dev/null 2>&1; then
+    CURRENT_SHELL="$(getent passwd "$USER" | cut -d: -f7)"
+
+    if [ "$CURRENT_SHELL" != "$(which fish)" ]; then
+        chsh -s "$(which fish)" "$USER"
+    fi
 fi
