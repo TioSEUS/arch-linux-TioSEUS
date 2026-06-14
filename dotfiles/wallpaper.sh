@@ -1,17 +1,34 @@
 #!/bin/bash
 
-# 1. Garante que nenhuma instância antiga está rodando
+# Finaliza instâncias antigas
 killall hyprpaper 2>/dev/null
 
-# 2. Inicia o daemon do hyprpaper em background
+# Diretório padrão de wallpapers
+WALL_DIR="$HOME/Pictures/Wallpapers"
+
+# Inicia o daemon
 hyprpaper &
 
-# 3. Dá um tempo maior (2 segundos) para o motor do hyprpaper e as telas carregarem 100%
+# Aguarda inicialização
 sleep 2
 
-# 4. Injeta as imagens na marra usando o hyprctl
-hyprctl hyprpaper preload "/home/seus/Imagens/Wallpapers/guts.png"
-hyprctl hyprpaper preload "/home/seus/Imagens/Wallpapers/default.png"
+# Pré-carrega wallpapers
+hyprctl hyprpaper preload "$WALL_DIR/guts.png"
+hyprctl hyprpaper preload "$WALL_DIR/default.png"
 
-hyprctl hyprpaper wallpaper "DP-3,/home/seus/Imagens/Wallpapers/guts.png"
-hyprctl hyprpaper wallpaper "HDMI-A-1,/home/seus/Imagens/Wallpapers/default.png"
+# Detecta monitores conectados
+MONITORS=$(hyprctl monitors -j | grep '"name"' | cut -d'"' -f4)
+
+COUNT=0
+
+for MONITOR in $MONITORS; do
+
+    if [ "$COUNT" -eq 0 ]; then
+        hyprctl hyprpaper wallpaper "$MONITOR,$WALL_DIR/guts.png"
+    else
+        hyprctl hyprpaper wallpaper "$MONITOR,$WALL_DIR/default.png"
+    fi
+
+    COUNT=$((COUNT + 1))
+
+done
