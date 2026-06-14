@@ -1,5 +1,5 @@
 {
- 
+
     "output": "DP-3",
     "layer": "top",
     "position": "top",
@@ -7,14 +7,14 @@
     "exclusive": true,
     "passthrough": false,
     "gtk-layer-shell": true,
-    "height": 34,
+    "height": 38,
     "margin-top": 8,
     "margin-left": 10,
     "margin-right": 10,
 
     "modules-left": ["custom/shutdown", "custom/reboot", "custom/logout", "hyprland/window", "custom/wallpaper"],
     "modules-center": ["hyprland/workspaces"],
-    "modules-right": ["cpu", "memory", "custom/gpu", "pulseaudio", "pulseaudio#microphone", "bluetooth", "network", "tray", "custom/notification", "clock"],
+    "modules-right": ["cpu", "memory", "custom/gpu", "pulseaudio", "pulseaudio#microphone", "bluetooth", "network", "tray", "custom/no>
 
     "custom/shutdown": {
        "format": "⏻ ",
@@ -39,9 +39,9 @@
     },
 
     "custom/wallpaper": {
-    	"format": "󰋩 ",
-    	"on-click": "$HOME/.local/bin/muda_wallpaper.sh",
-    	"tooltip-format": "Clique para trocar o papel de parede"
+        "format": "󰋩 ",
+        "on-click": "$HOME/.local/bin/muda_wallpaper.sh",
+        "tooltip-format": "Clique para trocar o papel de parede"
     },
 
     "hyprland/workspaces": {
@@ -61,12 +61,12 @@
         "format": "󰍛 {used:0.1f}GB / {total:0.0f}GB",
         "format-alt": "󰍛 {}%",
         "tooltip": true,
-        "tooltip-format": "Memória Utilizada: {used:0.1f}GB\nDisponível: {avail:0.1f}GB\nTotal: {total:0.1f}GB\nSwap: {swapUsed:0.1f}GB / {swapTotal:0.1f}GB"
+        "tooltip-format": "Memória Utilizada: {used:0.1f}GB\nDisponível: {avail:0.1f}GB\nTotal: {total:0.1f}GB\nSwap: {swapUsed:0.1f}G>
     },
 
     "custom/gpu": {
         "interval": 2,
-        "exec": "sh -c 'cat /sys/class/drm/card*/device/gpu_busy_percent 2>/dev/null | head -n1 || echo N/A'"
+        "exec": "cat /sys/class/drm/card0/device/gpu_busy_percent 2>/dev/null || echo 0",
         "format": "󰢮 {}%",
         "max-length": 10,
         "return-type": ""
@@ -82,7 +82,7 @@
         "on-scroll-up": "pactl set-sink-volume @DEFAULT_SINK@ +5%",
         "on-scroll-down": "pactl set-sink-volume @DEFAULT_SINK@ -5%",
         "scroll-step": 5
-    },
+},
 
     "pulseaudio#microphone": {
         "format": "{format_source}",
@@ -95,19 +95,21 @@
     },
 
     "bluetooth": {
-    	"format": " {status}",
-    	"format-disabled": "󰂲",
-    	"format-connected": "󰂱 {device_alias}",
-    	"tooltip-format": "{controller_alias}\t{controller_address}",
-    	"tooltip-format-connected": "{controller_alias}\t{controller_address}\n\n{device_enumerate}",
-    	"tooltip-format-enumerate-connected": "{device_alias}\t{device_address}",
-    	"on-click": "exec blueman-manager"
+        "format": " {status}",
+        "format-disabled": "󰂲",
+        "format-connected": "󰂱 {device_alias}",
+        "tooltip-format": "{controller_alias}\t{controller_address}",
+        "tooltip-format-connected": "{controller_alias}\t{controller_address}\n\n{device_enumerate}",
+        "tooltip-format-enumerate-connected": "{device_alias}\t{device_address}",
+        "on-click": "exec blueman-manager"
     },
 
     "network": {
         "format-wifi": "󰤨 {signalStrength}%",
         "format-ethernet": "󰈀 ",
-        "format-disconnected": "󰤮 "
+        "format-disconnected": "󰤮 ",
+        "on-click": "kitty -e nmtui",
+        "tooltip-format": "{ifname} via {gwaddr}"
     },
 
     "tray": {
