@@ -74,7 +74,7 @@ else
     echo "[ERRO] Superfile não encontrado."
 fi
 
-#Criar diretórios padrões!!
+#Criar diretorios padroes
 xdg-user-dirs-update
 
 # Fcitx5 (cedilha e input method)
