@@ -65,3 +65,9 @@ echo "[INFO] Instalando Superfile..."
 if ! command -v spf >/dev/null 2>&1; then
     bash -c "$(curl -sLo- https://superfile.netlify.app/install.sh)"
 fi
+
+if command -v spf >/dev/null 2>&1; then
+    echo "[OK] Superfile instalado."
+else
+    echo "[ERRO] Superfile não encontrado."
+fi
