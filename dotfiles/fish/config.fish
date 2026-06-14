@@ -1,21 +1,22 @@
 
+
 # Iniciar o Hyprland automaticamente ao logar no TTY1
 if status is-login
-    	if test (tty) = "/dev/tty1"
+        if test (tty) = "/dev/tty1"
         exec start-Hyprland
       end
 end
 
 if status is-interactive
-	#Comandos para rodar em sessões interativas
+        #Comandos para rodar em sessões interativas
     fastfetch
 
-	#Desativar a mensagem de Boas-Vindas do fish
-	set fish_greeting ''
-	if type -q starship
+        #Desativar a mensagem de Boas-Vindas do fish
+        set fish_greeting ''
+        if type -q starship
 
-	#Inicializar o prompt do Starship
-	starship init fish | source
+        #Inicializar o prompt do Starship
+        starship init fish | source
      end
 end
 
