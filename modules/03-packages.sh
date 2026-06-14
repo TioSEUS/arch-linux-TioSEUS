@@ -6,26 +6,17 @@ echo "-----------------------------------------------------------------"
 export CHROOT="$HOME/.cache/paru/build"
 mkdir -p "$CHROOT"
 
-# Limpeza de conflitos
-echo "--> Limpando conflitos de Java..."
+# Limpeza Java
 sudo pacman -Rdd --noconfirm jdk21-openjdk jre21-openjdk jre21-openjdk-headless 2>/dev/null || true
 
-echo "--> Dependências base..."
 sudo pacman -S --noconfirm --needed git base-devel curl flatpak
 
-# Paru
 if ! command -v paru &> /dev/null; then
-    echo "--> Instalando Paru..."
-    cd /tmp
-    rm -rf paru
+    cd /tmp && rm -rf paru
     git clone https://aur.archlinux.org/paru.git
-    cd paru
-    makepkg -si --noconfirm --needed
-    cd ..
-    rm -rf paru
+    cd paru && makepkg -si --noconfirm --needed && cd .. && rm -rf paru
 fi
 
-echo "--> Instalando pacotes oficiais..."
 sudo pacman -S --noconfirm --needed \
     hyprland sddm waybar kitty fish rofi btop fastfetch \
     pipewire pipewire-alsa pipewire-pulse pipewire-jack wireplumber pavucontrol \
@@ -36,14 +27,11 @@ sudo pacman -S --noconfirm --needed \
     obs-studio steam gnome-disk-utility hyprpaper mangohud discord \
     opencl-mesa prism-launcher nwg-look
 
-echo "--> Pacotes AUR..."
 paru -S --noconfirm --needed \
     ghostty-bin brave-bin visual-studio-code-bin anydesk-bin \
     lact darkman xdg-desktop-portal-gtk
 
-echo "--> Ativando serviços..."
 sudo systemctl enable --now NetworkManager bluetooth sddm lactd 2>/dev/null || true
 
-echo "--> Flathub + Superfile..."
 flatpak remote-add --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo
 bash -c "$(curl -sLo- https://superfile.dev/install.sh)" || true
