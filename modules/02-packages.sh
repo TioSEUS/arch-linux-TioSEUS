@@ -13,7 +13,7 @@ if ! command -v paru &> /dev/null; then
 fi
 
 echo "--> Instalando ferramentas nativas, de terminal e interface..."
-# Adicionados: btop, fastfetch, grim/slurp para prints, e pacotes base
+# CORRIGIDO: Removido darkman daqui, pois ele pertence ao AUR
 sudo pacman -S --noconfirm --needed \
     hyprland sddm waybar kitty fish rofi btop fastfetch \
     pipewire pipewire-alsa pipewire-pulse pipewire-jack wireplumber pavucontrol \
@@ -21,17 +21,17 @@ sudo pacman -S --noconfirm --needed \
     ttf-font-awesome ttf-fira-code ttf-nerd-fonts-symbols-common \
     qt5-wayland qt6-wayland xdg-desktop-portal-hyprland polkit-gnome \
     xdg-user-dirs brightnessctl pamixer wl-clipboard grim slurp mpv \
-    obs-studio steam darkman-openbox gnome-disk-utility hyprpaper mangohud discord
+    obs-studio steam gnome-disk-utility hyprpaper mangohud discord
 
 # Ativando daemons base
 sudo systemctl enable --now NetworkManager bluetooth sddm.service
 
 echo "--> Instalando pacotes do AUR via Paru..."
-# Adicionado: ghostty-git (terminal ultra rápido por GPU) e ferramentas visuais
+# CORRIGIDO: Incluído o 'darkman' aqui para ser instalado pelo AUR corretamente
 paru -S --noconfirm --needed \
     ghostty-git brave-bin visual-studio-code-bin anydesk-bin \
     davinci-resolve heroic-games-launcher-bin prism-launcher-bin \
-    lact nwg-look-bin xdg-desktop-portal-gtk
+    lact nwg-look-bin xdg-desktop-portal-gtk darkman
 
 sudo systemctl enable --now lactd
 
