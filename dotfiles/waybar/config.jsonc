@@ -66,7 +66,7 @@
 
     "custom/gpu": {
         "interval": 2,
-        "exec": "cat /sys/class/drm/card1/device/gpu_busy_percent",
+        "exec": "sh -c 'cat /sys/class/drm/card*/device/gpu_busy_percent 2>/dev/null | head -n1 || echo N/A'"
         "format": "󰢮 {}%",
         "max-length": 10,
         "return-type": ""
