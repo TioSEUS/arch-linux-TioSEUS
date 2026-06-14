@@ -15,14 +15,13 @@ echo "================================================================="
 echo "🚀 INICIANDO INSTALAÇÃO - TioSEUS Arch Setup"
 echo "================================================================="
 
-# Executa todos os módulos em ordem
 for script in modules/[0-9]*.sh; do
     if [ -f "$script" ]; then
         echo -e "\n📦 Executando $(basename "$script")..."
         if bash "$script"; then
             echo "✅ $(basename "$script") OK"
         else
-            echo "❌ Falha em $(basename "$script")" >&2
+            echo "❌ ERRO em $(basename "$script")" >&2
             exit 1
         fi
     fi
