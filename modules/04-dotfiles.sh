@@ -50,20 +50,14 @@ if [ -d "$ROOT_DIR/dotfiles/Wallpapers" ]; then
     ~/Pictures/Wallpapers/ 2>/dev/null || true
 fi
 
-# Script troca de wallpaper
-if [ -f "$ROOT_DIR/scripts/muda_wallpaper.sh" ]; then
+if [ -f "$ROOT_DIR/dotfiles/scripts/muda_wallpaper.sh" ]; then
 
     cp -f \
-    "$ROOT_DIR/scripts/muda_wallpaper.sh" \
+    "$ROOT_DIR/dotfiles/scripts/muda_wallpaper.sh" \
     ~/.local/bin/muda_wallpaper.sh
 
     chmod +x ~/.local/bin/muda_wallpaper.sh
 
-fi
-
-# wallpaper.sh do Hyprland
-if [ -f "$ROOT_DIR/dotfiles/hypr/wallpaper.sh" ]; then
-    chmod +x ~/.config/hypr/wallpaper.sh
 fi
 
 echo "[OK] Dotfiles aplicados com sucesso."
