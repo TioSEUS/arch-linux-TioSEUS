@@ -58,7 +58,8 @@ fi
 paru -S --needed --noconfirm \
 brave-bin \
 visual-studio-code-bin \
-darkman
+darkman \ 
+hyprpaper
 
 echo "[INFO] Instalando Superfile..."
 
