@@ -5,5 +5,4 @@ echo "-----------------------------------------------------------------"
 
 fc-cache -fv
 xdg-user-dirs-update
-
-echo "✅ Configurações finais aplicadas!"
+echo "✅ Tudo pronto! Reinicie o sistema."
