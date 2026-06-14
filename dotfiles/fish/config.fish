@@ -21,6 +21,7 @@ end
 
 # --- Aliases (Atalhos de Comandos) ---
 #Atalhos para facilitar a vida no Arch Seu Inutio
+alias fm="spf"
 alias atualizar='yay -Syu'
 alias limpar='yay -Sc'
 alias conf-hypr='nano ~/.config/hypr/hyprland.conf'
