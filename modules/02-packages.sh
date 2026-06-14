@@ -13,7 +13,7 @@ if ! command -v paru &> /dev/null; then
 fi
 
 echo "--> Instalando ferramentas nativas, de terminal e interface..."
-# CORRIGIDO: Prism Launcher (com hífen), nwg-look e dependências movidos para o Pacman nativo
+# CORRIGIDO: Removido o jdk21 duplicado. Deixando apenas o jre21 para não dar conflito.
 sudo pacman -S --noconfirm --needed \
     hyprland sddm waybar kitty fish rofi btop fastfetch \
     pipewire pipewire-alsa pipewire-pulse pipewire-jack wireplumber pavucontrol \
@@ -28,7 +28,6 @@ sudo pacman -S --noconfirm --needed \
 sudo systemctl enable --now NetworkManager bluetooth sddm.service
 
 echo "--> Instalando pacotes do AUR via Paru..."
-# AUR limpo de travas de confirmação interativa
 paru -S --noconfirm --needed \
     ghostty-git brave-bin visual-studio-code-bin anydesk-bin \
     davinci-resolve heroic-games-launcher-bin lact darkman \
