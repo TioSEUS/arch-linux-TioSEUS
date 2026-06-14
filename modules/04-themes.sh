@@ -1,9 +1,6 @@
 #!/usr/bin/env bash
 echo "-----------------------------------------------------------------"
-echo "--> MÓDULO 4: Temas e Aparência"
+echo "--> MÓDULO 4: Temas"
 echo "-----------------------------------------------------------------"
 
-paru -S --noconfirm --needed \
-    catppuccin-gtk-theme-mocha catppuccin-icon-theme papirus-icon-theme || true
-
-echo "--> Temas instalados!"
+paru -S --noconfirm --needed catppuccin-gtk-theme-mocha papirus-icon-theme || true
