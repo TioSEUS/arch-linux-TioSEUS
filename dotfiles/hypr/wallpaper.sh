@@ -1,42 +1,26 @@
 #!/bin/bash
 
 # Finaliza instâncias antigas
-killall hyprpaper 2>/dev/null
+killall hyprpaper 2>/dev/null || true
 
-# Diretório padrão de wallpapers
 WALL_DIR="$HOME/Pictures/Wallpapers"
 
-# Inicia o daemon
-hyprpaper &
-
-# Aguarda inicialização
-sleep 2
-
-# Pré-carrega wallpapers
-hyprctl hyprpaper preload "$WALL_DIR/guts.png"
-hyprctl hyprpaper preload "$WALL_DIR/default.png"
-
-# Detecta monitores conectados
-MONITORS=$(hyprctl monitors -j | grep '"name"' | cut -d'"' -f4)
-
-COUNT=0
-
-for MONITOR in $MONITORS; do
-
-    if [ "$COUNT" -eq 0 ]; then
-        hyprctl hyprpaper wallpaper "$MONITOR,$WALL_DIR/guts.png"
-    else
-        hyprctl hyprpaper wallpaper "$MONITOR,$WALL_DIR/default.png"
-    fi
-
-    COUNT=$((COUNT + 1))
-
-    # Usa hyprpaper.conf se existir
+# Inicia com configuração
 if [ -f ~/.config/hyprpaper/hyprpaper.conf ]; then
     hyprpaper -c ~/.config/hyprpaper/hyprpaper.conf &
+    echo "[INFO] hyprpaper iniciado com config"
 else
-    # fallback
     hyprpaper &
 fi
 
-done
+sleep 2
+
+# Pré-carrega
+hyprctl hyprpaper preload "$WALL_DIR/guts.png" 2>/dev/null || true
+hyprctl hyprpaper preload "$WALL_DIR/default.png" 2>/dev/null || true
+
+# Aplica por monitor específico
+hyprctl hyprpaper wallpaper "DP-3,$WALL_DIR/guts.png" 2>/dev/null && echo "[OK] DP-3 → guts.png"
+hyprctl hyprpaper wallpaper "HDMI-A-1,$WALL_DIR/default.png" 2>/dev/null && echo "[OK] HDMI-A-1 → default.png"
+
+echo "[OK] Wallpaper inicial configurado!"
