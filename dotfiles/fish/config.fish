@@ -1,5 +1,3 @@
-
-
 # Iniciar o Hyprland automaticamente ao logar no TTY1
 if status is-login
         if test (tty) = "/dev/tty1"
