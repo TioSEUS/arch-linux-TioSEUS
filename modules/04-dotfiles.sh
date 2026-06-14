@@ -12,14 +12,9 @@ mkdir -p ~/.config/{hypr,waybar,kitty,fish,btop,fastfetch,rofi,hyprpaper}
 mkdir -p ~/Pictures/Wallpapers
 mkdir -p ~/.local/bin
 
-# Copia tudo do hypr (incluindo wallpaper.sh)
+# Hyprland + hyprpaper
 [ -d "$ROOT_DIR/dotfiles/hypr" ] && cp -rf "$ROOT_DIR/dotfiles/hypr" ~/.config/
-
-# hyprpaper.conf (corrigido)
-if [ -f "$ROOT_DIR/dotfiles/hyprpaper.conf" ]; then
-    cp -f "$ROOT_DIR/dotfiles/hyprpaper.conf" ~/.config/hyprpaper/hyprpaper.conf
-    echo "[OK] hyprpaper.conf copiado"
-fi
+[ -f "$ROOT_DIR/dotfiles/hyprpaper.conf" ] && cp -f "$ROOT_DIR/dotfiles/hyprpaper.conf" ~/.config/hyprpaper/hyprpaper.conf
 
 # Outros dotfiles
 [ -d "$ROOT_DIR/dotfiles/waybar" ] && cp -rf "$ROOT_DIR/dotfiles/waybar" ~/.config/
@@ -30,7 +25,7 @@ fi
 # Wallpapers
 if [ -d "$ROOT_DIR/dotfiles/Wallpapers" ]; then
     cp -rf "$ROOT_DIR/dotfiles/Wallpapers/"* ~/Pictures/Wallpapers/ 2>/dev/null || true
-    echo "[OK] Wallpapers copiados ($(ls ~/Pictures/Wallpapers/ | wc -l) arquivos)"
+    echo "[OK] Wallpapers copiados"
 fi
 
 # Script muda_wallpaper
