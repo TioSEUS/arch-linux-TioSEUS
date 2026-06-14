@@ -31,4 +31,12 @@ for MONITOR in $MONITORS; do
 
     COUNT=$((COUNT + 1))
 
+    # Usa hyprpaper.conf se existir
+if [ -f ~/.config/hyprpaper/hyprpaper.conf ]; then
+    hyprpaper -c ~/.config/hyprpaper/hyprpaper.conf &
+else
+    # fallback
+    hyprpaper &
+fi
+
 done
