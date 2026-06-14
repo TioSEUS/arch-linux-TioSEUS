@@ -1,0 +1,94 @@
+window#waybar {
+    background: transparent;
+}
+
+/* Aplica o estilo de pílulas para os módulos novos também */
+#window,
+
+#workspaces,
+#cpu,
+#memory,
+#custom-gpu,
+#pulseaudio,
+#pulseaudio.microphone,
+#bluetooth,
+#network,
+#tray,
+#custom-notification,
+#clock {
+    background-color: #05080f; /* Preto profundo */
+    color: #b3b1ad;
+    border: 2px solid #005699; /* Azul Meia-Noite */
+    border-radius: 8px;
+    padding: 0px 10px;
+    margin: 4px 2px;
+    font-family: "JetBrainsMono Nerd Font", "Fira Code", sans-serif;
+    font-size: 13px;
+    font-weight: bold;
+}
+
+
+#workspaces {
+    padding: 0px 6px;
+}
+
+#workspaces button {
+    color: #4a5a75;
+    padding: 0px 8px;
+}
+
+#workspaces button.active {
+    color: #00aaff;
+    background: transparent;
+}
+
+#clock {
+    color: #ffffff;
+    border-color: #007acc;
+}
+
+#window {
+    margin-left: 0px;
+}
+
+/* Ajuste específico para os ícones da Steam/Discord não ficarem espremidos */
+#tray {
+    padding: 0px 10px;
+}
+
+#memory {
+    margin-right: 6px;
+    margin-left: 6px;
+    padding: 0 8px;
+}
+
+/* Efeito de passar o mouse por cima (Hover) */
+#custom-shutdown:hover {
+    background-color: #f38ba8; /* Vermelho ao passar o mouse no Desligar */
+    color: #11111b;
+}
+
+#custom-reboot:hover {
+    background-color: #fab387; /* Laranja ao passar o mouse no Reiniciar */
+    color: #11111b;
+}
+
+#custom-logout:hover {
+    background-color: #f9e2af; /* Amarelo ao passar o mouse no Deslogar */
+    color: #11111b;
+}
+
+#custom-shutdown,
+#custom-reboot,
+#custom-logout,
+#custom-wallpaper {
+    background-color: #05080f; 
+    color: #b3b1ad;
+    border: 2px solid #005699; 
+    border-radius: 8px;
+    padding: 0px 10px;
+    margin: 4px 2px;
+    font-family: "JetBrainsMono Nerd Font", "Fira Code", sans-serif;
+    font-size: 13px;
+    font-weight: bold;
+}
