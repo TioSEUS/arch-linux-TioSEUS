@@ -7,7 +7,7 @@ xdg-user-dirs-update
 mkdir -p ~/Imagens
 
 echo "--> Estruturando diretórios internos na Home..."
-# O script cria as pastas direto no seu PC para os programas novos usarem
+# O script garante a criação das pastas direto no seu PC para os programas novos usarem
 mkdir -p ~/.config/{hypr,fish,kitty,rofi,mangohud,waybar,superfile,btop,fastfetch,ghostty}
 mkdir -p ~/Wallpapers
 
@@ -18,7 +18,7 @@ if [ -d "./dotfiles" ]; then
     [ -f "./dotfiles/config.fish" ] && cp ./dotfiles/config.fish ~/.config/fish/config.fish
     [ -f "./dotfiles/wallpaper.sh" ] && cp ./dotfiles/wallpaper.sh ~/.config/hypr/wallpaper.sh
     
-    # Só copia o que realmente existir na sua pasta do GitHub
+    # Cópias recursivas das pastas que você possui no GitHub
     [ -d "./dotfiles/kitty" ] && cp -r ./dotfiles/kitty/* ~/.config/kitty/
     [ -d "./dotfiles/rofi" ] && cp -r ./dotfiles/rofi/* ~/.config/rofi/
     [ -d "./dotfiles/mangohud" ] && cp -r ./dotfiles/mangohud/* ~/.config/mangohud/
@@ -26,11 +26,14 @@ if [ -d "./dotfiles" ]; then
     [ -d "./dotfiles/superfile" ] && cp -r ./dotfiles/superfile/* ~/.config/superfile/
     [ -d "./dotfiles/Wallpapers" ] && cp -r ./dotfiles/Wallpapers/* ~/Wallpapers/
     
-    # Se um dia você subir pastas Gtk customizadas, o script já aceita
+    # Estruturas reservadas (caso um dia você queira versionar essas configurações no Git)
+    [ -d "./dotfiles/btop" ] && cp -r ./dotfiles/btop/* ~/.config/btop/
+    [ -d "./dotfiles/fastfetch" ] && cp -r ./dotfiles/fastfetch/* ~/.config/fastfetch/
+    [ -d "./dotfiles/ghostty" ] && cp -r ./dotfiles/ghostty/* ~/.config/ghostty/
     [ -d "./dotfiles/gtk-3.0" ] && cp -r ./dotfiles/gtk-3.0/* ~/.config/gtk-3.0/
     [ -d "./dotfiles/gtk-4.0" ] && cp -r ./dotfiles/gtk-4.0/* ~/.config/gtk-4.0/
 
-    # Tema do SDDM
+    # Tema customizado do SDDM (TioSEUS-Theme)
     if [ -d "./dotfiles/sddm-theme" ]; then
         echo "--> Injetando tema TioSEUS-Theme no SDDM global..."
         sudo mkdir -p /usr/share/sddm/themes/
@@ -45,7 +48,8 @@ else
     echo "[AVISO] Pasta dotfiles/ não encontrada localmente."
 fi
 
-# Geração do script dinâmico da Waybar
+# Geração do script dinâmico da Waybar para troca de papel de parede
+echo "--> Gerando script dinâmico de troca de wallpaper..."
 cat << 'EOF' > ~/.config/hypr/mudar_wallpaper.sh
 #!/usr/bin/env bash
 WALLPAPER_DIR="$HOME/Wallpapers"
@@ -61,3 +65,12 @@ hyprctl hyprpaper unload all
 EOF
 chmod +x ~/.config/hypr/mudar_wallpaper.sh
 [ -f "~/.config/hypr/wallpaper.sh" ] && chmod +x ~/.config/hypr/wallpaper.sh
+
+# -----------------------------------------------------------------
+# AUTOLOAD DO FASTFETCH NO TERMINAL
+# -----------------------------------------------------------------
+echo "--> Configurando o Fastfetch para iniciar junto com o Fish Shell..."
+# Injeta o comando no fim do config.fish para saltar na tela em cada abertura de terminal
+echo "" >> ~/.config/fish/config.fish
+echo "# Inicializacao automatica do Fastfetch" >> ~/.config/fish/config.fish
+echo "fastfetch" >> ~/.config/fish/config.fish
