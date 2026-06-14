@@ -7,20 +7,21 @@ ROOT_DIR="$(dirname "$SCRIPT_DIR")"
 
 echo "[INFO] Aplicando dotfiles..."
 
-# Diretórios de configuração
-mkdir -p ~/.config/{hypr,waybar,kitty,fish,btop,fastfetch,rofi,hyprpaper,fcitx5}
-
-# Wallpapers
+# Diretórios
+mkdir -p ~/.config/{hypr,waybar,kitty,fish,btop,fastfetch,rofi,hyprpaper}
 mkdir -p ~/Pictures/Wallpapers
-
-# Scripts locais
 mkdir -p ~/.local/bin
 
-# Hyprland + hyprpaper
+# Copia tudo do hypr (incluindo wallpaper.sh)
 [ -d "$ROOT_DIR/dotfiles/hypr" ] && cp -rf "$ROOT_DIR/dotfiles/hypr" ~/.config/
-[ -f "$ROOT_DIR/dotfiles/hyprpaper.conf" ] && cp -f "$ROOT_DIR/dotfiles/hyprpaper.conf" ~/.config/hyprpaper/hyprpaper.conf
 
-# Waybar, Kitty, Fish, etc.
+# hyprpaper.conf (corrigido)
+if [ -f "$ROOT_DIR/dotfiles/hyprpaper.conf" ]; then
+    cp -f "$ROOT_DIR/dotfiles/hyprpaper.conf" ~/.config/hyprpaper/hyprpaper.conf
+    echo "[OK] hyprpaper.conf copiado"
+fi
+
+# Outros dotfiles
 [ -d "$ROOT_DIR/dotfiles/waybar" ] && cp -rf "$ROOT_DIR/dotfiles/waybar" ~/.config/
 [ -d "$ROOT_DIR/dotfiles/kitty" ] && cp -rf "$ROOT_DIR/dotfiles/kitty" ~/.config/
 [ -d "$ROOT_DIR/dotfiles/fish" ] && cp -rf "$ROOT_DIR/dotfiles/fish" ~/.config/
@@ -29,14 +30,14 @@ mkdir -p ~/.local/bin
 # Wallpapers
 if [ -d "$ROOT_DIR/dotfiles/Wallpapers" ]; then
     cp -rf "$ROOT_DIR/dotfiles/Wallpapers/"* ~/Pictures/Wallpapers/ 2>/dev/null || true
-    echo "[OK] Wallpapers copiados"
+    echo "[OK] Wallpapers copiados ($(ls ~/Pictures/Wallpapers/ | wc -l) arquivos)"
 fi
 
-# Script de mudar wallpaper
+# Script muda_wallpaper
 if [ -f "$ROOT_DIR/dotfiles/scripts/muda_wallpaper.sh" ]; then
     cp -f "$ROOT_DIR/dotfiles/scripts/muda_wallpaper.sh" ~/.local/bin/muda_wallpaper.sh
     chmod +x ~/.local/bin/muda_wallpaper.sh
-    echo "[OK] Script muda_wallpaper instalado"
+    echo "[OK] muda_wallpaper.sh instalado"
 fi
 
 echo "[OK] Dotfiles aplicados com sucesso."
