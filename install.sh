@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # ================================================
-# Arch Linux Dotfiles Installer - TioSEUS
+# Arch Linux Dotfiles Installer - TioSEUS (Versão Final)
 # ================================================
 
 set -euo pipefail
@@ -21,7 +21,7 @@ for script in modules/[0-9]*.sh; do
         if bash "$script"; then
             echo "✅ $(basename "$script") OK"
         else
-            echo "❌ ERRO em $(basename "$script")" >&2
+            echo "❌ ERRO em $(basename "$script")"
             exit 1
         fi
     fi
@@ -29,7 +29,7 @@ done
 
 echo ""
 echo "================================================================="
-echo "🎉 INSTALAÇÃO CONCLUÍDA! $(date)"
+echo "🎉 INSTALAÇÃO CONCLUÍDA!"
 echo "📋 Log: $LOGFILE"
-echo "🔄 Reinicie o sistema: reboot"
+echo "🔄 Reinicie: reboot"
 echo "================================================================="
