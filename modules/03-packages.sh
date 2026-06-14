@@ -71,3 +71,15 @@ if command -v spf >/dev/null 2>&1; then
 else
     echo "[ERRO] Superfile não encontrado."
 fi
+
+# Fcitx5 (cedilha e input method)
+sudo pacman -S --needed --noconfirm \
+    fcitx5 fcitx5-configtool fcitx5-gtk fcitx5-qt fcitx5-im
+
+# Cria .XCompose para cedilha
+mkdir -p ~/.config/fcitx5
+cat > ~/.XCompose << 'EOF'
+include "%L"
+<dead_acute> <c> : "ç" U00E7
+<dead_acute> <C> : "Ç" U00C7
+EOF
