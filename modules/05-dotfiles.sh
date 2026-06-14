@@ -1,19 +1,24 @@
 #!/usr/bin/env bash
 echo "-----------------------------------------------------------------"
-echo "--> MÓDULO 5: Aplicando Dotfiles + Correções"
+echo "--> MÓDULO 5: Aplicando Dotfiles (Versão Corrigida)"
 echo "-----------------------------------------------------------------"
 
-cd ../dotfiles || { echo "❌ dotfiles não encontrado"; exit 1; }
+# Estamos dentro de modules/, então voltamos para a raiz do repo
+if [ ! -d "../dotfiles" ]; then
+    echo "❌ Pasta dotfiles não encontrada!"
+    echo "   Certifique-se de estar na raiz do repositório: ~/arch-linux-TioSEUS"
+    exit 1
+fi
 
-echo "--> Instalando dependências do tema SDDM (Qt)..."
-sudo pacman -S --noconfirm --needed qt6-multimedia qt5-compat
+cd ../dotfiles || exit 1
 
-echo "--> Copiando configurações..."
-
+echo "--> Criando diretórios..."
 mkdir -p ~/.config/hypr ~/.config/kitty ~/.config/waybar ~/.config/rofi \
          ~/.config/mangohud ~/.config/superfile ~/Pictures/Wallpapers
 
-# Arquivos principais
+echo "--> Copiando arquivos e pastas..."
+
+# Arquivos na raiz do dotfiles
 cp -f hyprland.conf ~/.config/hypr/hyprland.conf
 cp -f hyprpaper.conf ~/.config/hyprpaper.conf
 cp -f wallpaper.sh ~/.config/wallpaper.sh
@@ -36,11 +41,15 @@ if [ -d "sddm-theme" ]; then
     echo -e "[Theme]\nCurrent=tio-seus-theme" | sudo tee /etc/sddm.conf.d/theme.conf > /dev/null
 fi
 
+# Permissões e cache
 chmod +x ~/.config/hypr/hyprland.conf ~/.config/wallpaper.sh 2>/dev/null || true
 fc-cache -fv
 
-echo "--> Fish como shell padrão..."
-command -v fish && echo "$(which fish)" | sudo tee -a /etc/shells > /dev/null && chsh -s "$(which fish)" "$USER" || true
+echo "--> Definindo Fish como shell padrão..."
+if command -v fish &> /dev/null; then
+    echo "$(which fish)" | sudo tee -a /etc/shells > /dev/null
+    chsh -s "$(which fish)" "$USER" || true
+fi
 
-echo "✅ Dotfiles aplicados!"
-echo "   Reinicie o SDDM: sudo systemctl restart sddm"
+echo "✅ Dotfiles aplicados com sucesso!"
+echo "   Execute agora: sudo systemctl restart sddm"
