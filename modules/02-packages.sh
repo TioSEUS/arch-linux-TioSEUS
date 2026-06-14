@@ -22,7 +22,7 @@ sudo pacman -S --noconfirm --needed \
     qt5-wayland qt6-wayland xdg-desktop-portal-hyprland polkit-gnome \
     xdg-user-dirs brightnessctl pamixer wl-clipboard grim slurp mpv \
     obs-studio steam gnome-disk-utility hyprpaper mangohud discord \
-    opencl-mesa jre21-openjdk prism-launcher nwg-look
+    opencl-mesa jre21-openjdk prismlauncher nwg-look
 
 # Ativando daemons base
 sudo systemctl enable --now NetworkManager bluetooth sddm.service
