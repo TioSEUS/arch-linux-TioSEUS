@@ -7,6 +7,10 @@ if status is-login
 end
 
 if status is-interactive
+    fastfetch
+end
+
+if status is-interactive
 	#Comandos para rodar em sessões interativas
 
 	#Desativar a mensagem de Boas-Vindas do fish
