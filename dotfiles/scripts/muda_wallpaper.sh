@@ -2,19 +2,23 @@
 
 WALL_DIR="$HOME/Pictures/Wallpapers"
 
-CURRENT=$(hyprctl hyprpaper listloaded | tail -n1 | awk '{print $NF}')
+# Reinicia hyprpaper
+killall hyprpaper 2>/dev/null || true
+hyprpaper -c ~/.config/hyprpaper/hyprpaper.conf & 2>/dev/null || hyprpaper &
 
-NEXT=$(find "$WALL_DIR" -type f \( \
--name "*.png" -o \
--name "*.jpg" -o \
--name "*.jpeg" -o \
--name "*.webp" \
-\) | shuf -n1)
+sleep 1.5
 
-hyprctl hyprpaper preload "$NEXT"
+MONITORS=$(hyprctl monitors -j | grep '"name"' | cut -d'"' -f4)
 
-for MONITOR in $(hyprctl monitors -j | grep '"name"' | cut -d'"' -f4); do
-    hyprctl hyprpaper wallpaper "$MONITOR,$NEXT"
+for MONITOR in $MONITORS; do
+    NEXT=$(find "$WALL_DIR" -type f \( -name "*.png" -o -name "*.jpg" -o -name "*.jpeg" -o -name "*.webp" \) | shuf -n1)
+    
+    if [ -n "$NEXT" ]; then
+        hyprctl hyprpaper preload "$NEXT" 2>/dev/null
+        hyprctl hyprpaper wallpaper "$MONITOR,$NEXT" 2>/dev/null && \
+        echo "[OK] $MONITOR ← $(basename "$NEXT")"
+    fi
 done
 
-notify-send "Wallpaper alterado" "$(basename "$NEXT")"
+notify-send "🎨 Wallpaper Alterado" "Cada monitor com imagem aleatória" 2>/dev/null || true
+echo "[OK] Wallpapers trocados com sucesso!"
