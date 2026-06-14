@@ -13,7 +13,7 @@ if ! command -v paru &> /dev/null; then
 fi
 
 echo "--> Instalando ferramentas nativas, de terminal e interface..."
-# CORRIGIDO: Prism Launcher, Java e nwg-look movidos para cá (via Pacman nativo)
+# CORRIGIDO: Prism Launcher (com hífen), nwg-look e dependências movidos para o Pacman nativo
 sudo pacman -S --noconfirm --needed \
     hyprland sddm waybar kitty fish rofi btop fastfetch \
     pipewire pipewire-alsa pipewire-pulse pipewire-jack wireplumber pavucontrol \
@@ -22,13 +22,13 @@ sudo pacman -S --noconfirm --needed \
     qt5-wayland qt6-wayland xdg-desktop-portal-hyprland polkit-gnome \
     xdg-user-dirs brightnessctl pamixer wl-clipboard grim slurp mpv \
     obs-studio steam gnome-disk-utility hyprpaper mangohud discord \
-    jdk21-openjdk opencl-mesa prism-launcher nwg-look
+    opencl-mesa jre21-openjdk prism-launcher nwg-look
 
 # Ativando daemons base
 sudo systemctl enable --now NetworkManager bluetooth sddm.service
 
 echo "--> Instalando pacotes do AUR via Paru..."
-# CORRIGIDO: Removidos os pacotes problemáticos daqui
+# AUR limpo de travas de confirmação interativa
 paru -S --noconfirm --needed \
     ghostty-git brave-bin visual-studio-code-bin anydesk-bin \
     davinci-resolve heroic-games-launcher-bin lact darkman \
