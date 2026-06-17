@@ -1,4 +1,3 @@
-
 #!/usr/bin/env bash
 
 set -e
@@ -39,27 +38,21 @@ ttf-fira-code \
 qt5-wayland \
 qt6-wayland \
 polkit-gnome \
-xdg-desktop-portal-hyprland \ 
+xdg-desktop-portal-hyprland \
 xdg-user-dirs
 
 if ! command -v paru >/dev/null; then
-
     cd /tmp
-
     rm -rf paru
-
     git clone https://aur.archlinux.org/paru.git
-
     cd paru
-
     makepkg -si --noconfirm
-
 fi
 
 paru -S --needed --noconfirm \
 brave-bin \
 visual-studio-code-bin \
-darkman \ 
+darkman \
 hyprpaper
 
 echo "[INFO] Instalando Superfile..."
@@ -74,7 +67,7 @@ else
     echo "[ERRO] Superfile não encontrado."
 fi
 
-#Criar diretorios padroes
+# Criar diretorios padroes
 xdg-user-dirs-update
 
 # Fcitx5 (cedilha e input method)
