@@ -1,4 +1,3 @@
-#!/bin/bash
 # ============================================================
 #  Arch Linux Hyprland Installer - TioSEUS
 #  Orquestrador principal - chama os módulos em ordem
@@ -77,7 +76,7 @@ done
 if [ $VALIDATION_FAIL -eq 1 ]; then
     echo
     err "Arquivos corrompidos com markdown encontrados!"
-    err "Abra cada um e remova as linhas começando com \\`\\`\\` ou ## que não pertencem ao código."
+    err "Abra cada um e remova as linhas começando com \`\`\` ou ## que não pertencem ao código."
     exit 1
 else
     ok "Todos os arquivos estão limpos (sem markdown acidental)"
