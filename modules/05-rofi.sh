@@ -1,79 +1,36 @@
-#!/bin/bash
-# Configura o Rofi completo: config base + launcher + powermenu + wifi menu
-# Versão robusta: avisa sobre arquivos faltantes mas NÃO aborta o install.sh
+#!/usr/bin/env bash
 
-# Sem "set -e" para que um cp que falhe não derrube o install.sh inteiro
+# Para o script se encontrar algum erro
+set -e
 
-DOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)/dotfiles"
+echo "[INFO] Configurando o Rofi para o Hyprland..."
 
-echo "→ Copiando config completa do Rofi..."
+# 1. Garante que o Rofi correto (Wayland) está instalado
+# O rofi comum do X11 costuma dar erro de foco ou não abrir no Hyprland
+sudo pacman -S --needed --noconfirm rofi-wayland
+
+# 2. Cria as pastas de configuração se elas não existirem
 mkdir -p ~/.config/rofi
 
-# Helper: copia arquivo se existir, senão avisa
-copy_if_exists() {
-    local src="$1"
-    local dst="$2"
-    if [ -f "$src" ]; then
-        cp "$src" "$dst" && echo "  [OK]   $(basename "$src")"
-    else
-        echo "  [FAIL] $src (arquivo não existe no repo)"
-        return 0  # não aborta
-    fi
+# 3. Cria o arquivo de configuração básica limpo
+# ATENÇÃO: O EOF no final tem que estar totalmente encostado na esquerda!
+cat << 'EOF' > ~/.config/rofi/config.rasi
+configuration {
+    modi: "run,drun,window";
+    icon-theme: "Oranchelo";
+    show-icons: true;
+    terminal: "kitty";
+    drun-display-format: "{icon} {name}";
+    location: 0;
+    disable-history: false;
+    hide-scrollbar: true;
+    display-drun: "   Apps ";
+    display-run: "   Run ";
+    display-window: " 󰕰  Window ";
+    sidebar-mode: true;
 }
 
-# Helper: copia diretório se existir
-mkdir_copy() {
-    local src_dir="$1"
-    local dst_dir="$2"
-    mkdir -p "$dst_dir"
-    if [ -d "$src_dir" ]; then
-        cp -r "$src_dir/." "$dst_dir/" 2>/dev/null
-        echo "  [OK]   $dst_dir (copiado)"
-    else
-        echo "  [FAIL] $src_dir (pasta não existe no repo)"
-    fi
-}
+@theme "default"
+EOF
 
-# 1. Config base
-copy_if_exists "$DOT/rofi/config.rasi" ~/.config/rofi/config.rasi
-
-# 2. Paleta TioSEUS
-mkdir -p ~/.config/rofi/colors
-copy_if_exists "$DOT/rofi/colors/tioseus.rasi" ~/.config/rofi/colors/tioseus.rasi
-
-# 3. Launcher type-3
-mkdir -p ~/.config/rofi/launchers/type-3/shared
-copy_if_exists "$DOT/rofi/launchers/type-3/launcher.sh"        ~/.config/rofi/launchers/type-3/launcher.sh
-copy_if_exists "$DOT/rofi/launchers/type-3/style-3.rasi"       ~/.config/rofi/launchers/type-3/style-3.rasi
-copy_if_exists "$DOT/rofi/launchers/type-3/shared/colors.rasi" ~/.config/rofi/launchers/type-3/shared/colors.rasi
-copy_if_exists "$DOT/rofi/launchers/type-3/shared/fonts.rasi"  ~/.config/rofi/launchers/type-3/shared/fonts.rasi
-
-# 4. Powermenu type-4
-mkdir -p ~/.config/rofi/powermenu/type-4/shared
-copy_if_exists "$DOT/rofi/powermenu/type-4/powermenu.sh"        ~/.config/rofi/powermenu/type-4/powermenu.sh
-copy_if_exists "$DOT/rofi/powermenu/type-4/style-5.rasi"        ~/.config/rofi/powermenu/type-4/style-5.rasi
-copy_if_exists "$DOT/rofi/powermenu/type-4/shared/colors.rasi"  ~/.config/rofi/powermenu/type-4/shared/colors.rasi
-copy_if_exists "$DOT/rofi/powermenu/type-4/shared/fonts.rasi"   ~/.config/rofi/powermenu/type-4/shared/fonts.rasi
-copy_if_exists "$DOT/rofi/powermenu/type-4/shared/confirm.rasi" ~/.config/rofi/powermenu/type-4/shared/confirm.rasi
-
-# 5. WiFi menu
-copy_if_exists "$DOT/rofi/rofi-wifi-menu.sh" ~/.config/rofi/rofi-wifi-menu.sh
-
-# 6. User image (opcional)
-mkdir -p ~/.config/rofi/images
-if [ -f "$DOT/rofi/images/user.png" ]; then
-    cp "$DOT/rofi/images/user.png" ~/.config/rofi/images/
-    echo "  [OK]   user.png"
-else
-    echo "  [INFO] Sem user.png — powermenu mostra espaço vazio"
-fi
-
-# 7. Permissões de execução nos scripts (só nos que existem)
-[ -f ~/.config/rofi/launchers/type-3/launcher.sh ]    && chmod +x ~/.config/rofi/launchers/type-3/launcher.sh
-[ -f ~/.config/rofi/powermenu/type-4/powermenu.sh ]   && chmod +x ~/.config/rofi/powermenu/type-4/powermenu.sh
-[ -f ~/.config/rofi/rofi-wifi-menu.sh ]               && chmod +x ~/.config/rofi/rofi-wifi-menu.sh
-
-echo
-echo "  [OK] Etapa Rofi finalizada"
-echo "  [INFO] Se algum [FAIL] apareceu acima, crie o arquivo faltante no repo"
-echo "         e rode 'install.sh' de novo."
+echo "[OK] Rofi configurado com sucesso!"
