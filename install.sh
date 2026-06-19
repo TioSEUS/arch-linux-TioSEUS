@@ -88,6 +88,10 @@ MODULES=(
     "11-scripts.sh"
     "12-wallpapers.sh"
     "13-final.sh"
+    "14-rofi-menu.sh"
+    "15-cava.sh"
+    "16-swaync.sh"
+    "17-fastfetch.sh"
 )
 
 START_TIME=$SECONDS
