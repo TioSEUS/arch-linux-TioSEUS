@@ -1,6 +1,3 @@
-```bash
-#!/bin/bash
-
 # Finaliza instâncias antigas
 killall hyprpaper 2>/dev/null
 sleep 1
