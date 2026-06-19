@@ -56,6 +56,11 @@ PACMAN_PKGS=(
     starship
     mangohud
     lib32-mangohud
+    cava
+    fastfetch
+    network-manager-applet
+    hyprshade
+    playerctl
 )
 
 echo
@@ -82,6 +87,8 @@ AUR_PKGS=(
     swww
     superfile
     qt6gtk2
+    hyprlock
+    hypridle
 )
 
 echo
