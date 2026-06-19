@@ -1,5 +1,3 @@
-#!/usr/bin/env bash
-
 ## TioSEUS Power Menu
 ## Mostra 5 botões: lock, suspend, logout, reboot, shutdown
 ## Adaptado de: adi1090x/rofi
