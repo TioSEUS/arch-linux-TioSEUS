@@ -1,26 +1,22 @@
 #!/bin/bash
 
 # Finaliza instâncias antigas
-killall hyprpaper 2>/dev/null || true
+killall hyprpaper 2>/dev/null
+sleep 1
 
 WALL_DIR="$HOME/Pictures/Wallpapers"
+CONF="$HOME/.config/hyprpaper/hyprpaper.conf"
+
+# Garante que o diretório existe
+mkdir -p "$WALL_DIR"
 
 # Inicia com configuração
-if [ -f ~/.config/hyprpaper/hyprpaper.conf ]; then
-    hyprpaper -c ~/.config/hyprpaper/hyprpaper.conf &
-    echo "[INFO] hyprpaper iniciado com config"
+if [ -f "$CONF" ]; then
+    hyprpaper -c "$CONF" >/dev/null 2>&1 &
+    echo "[INFO] hyprpaper iniciado com config: $CONF"
 else
-    hyprpaper &
+    hyprpaper >/dev/null 2>&1 &
+    echo "[INFO] hyprpaper iniciado sem config (vai usar defaults)"
 fi
 
-sleep 2
-
-# Pré-carrega
-hyprctl hyprpaper preload "$WALL_DIR/guts.png" 2>/dev/null || true
-hyprctl hyprpaper preload "$WALL_DIR/default.png" 2>/dev/null || true
-
-# Aplica por monitor específico
-hyprctl hyprpaper wallpaper "DP-3,$WALL_DIR/guts.png" 2>/dev/null && echo "[OK] DP-3 → guts.png"
-hyprctl hyprpaper wallpaper "HDMI-A-1,$WALL_DIR/default.png" 2>/dev/null && echo "[OK] HDMI-A-1 → default.png"
-
-echo "[OK] Wallpaper inicial configurado!"
+echo "[OK] Wallpaper inicial configurado!"bind = $mainMod SHIFT, 1, movetoworkspace, 1
