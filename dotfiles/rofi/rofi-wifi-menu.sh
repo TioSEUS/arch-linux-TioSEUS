@@ -1,5 +1,3 @@
-#!/usr/bin/env bash
-
 ## TioSEUS WiFi Menu
 ## Lista redes Wi-Fi e conecta via nmcli
 ## Adaptado de: adi1090x/rofi
