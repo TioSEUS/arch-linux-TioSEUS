@@ -17,4 +17,4 @@ else
     echo "[INFO] hyprpaper iniciado sem config (vai usar defaults)"
 fi
 
-echo "[OK] Wallpaper inicial configurado!"bind = $mainMod SHIFT, 1, movetoworkspace, 1
+echo "[OK] Wallpaper inicial configurado!"
