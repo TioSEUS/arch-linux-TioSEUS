@@ -11,6 +11,7 @@ git clone [https://github.com/TioSEUS/arch-linux-TioSEUS.git](https://github.com
 cd arch-linux-TioSEUS
 chmod +x install.sh validate.sh modules/*.sh
 ./install.sh
+
 arch-linux-TioSEUS/
 ├── install.sh              # Orquestrador principal (com backup + validação)
 ├── validate.sh             # Validação pré-commit (rode antes de commitar as alterações)
