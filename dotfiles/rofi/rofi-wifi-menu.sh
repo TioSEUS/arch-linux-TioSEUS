@@ -1,6 +1,6 @@
-## TioSEUS WiFi Menu
-## Lista redes Wi-Fi e conecta via nmcli
-## Adaptado de: adi1090x/rofi
+# TioSEUS WiFi Menu
+# Lista redes Wi-Fi e conecta via nmcli
+# Adaptado de: adi1090x/rofi
 
 # Caminho para configurações
 conf="$HOME/.config/rofi/wifi.conf"
