@@ -1,12 +1,22 @@
 #!/bin/bash
-# Garante waybar, swaync e darkman (já instalados no módulo 01)
-# Cria diretórios base se configs próprias forem adicionadas depois
+# Configura Waybar e Darkman
+# (SwayNC é tratado pelo módulo 16-swaync.sh)
 
 set -euo pipefail
 
-echo "→ Preparando diretórios para waybar/swaync/darkman..."
+DOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)/dotfiles"
+
+echo "→ Copiando config do Waybar..."
 mkdir -p ~/.config/waybar
-mkdir -p ~/.config/swaync
+if [ -f "$DOT/waybar/config.jsonc" ]; then
+    cp "$DOT/waybar/config.jsonc" ~/.config/waybar/
+fi
+if [ -f "$DOT/waybar/style.css" ]; then
+    cp "$DOT/waybar/style.css" ~/.config/waybar/
+fi
+echo "  [OK] Waybar instalado"
+
+echo "→ Preparando Darkman..."
 mkdir -p ~/.config/darkman
 
 # Cria config mínima do darkman se não existir
@@ -17,6 +27,6 @@ threshold:
   longitude: -47.92
 EOF
     echo "  [OK] darkman: config mínima criada"
+else
+    echo "  [OK] darkman: config já existia"
 fi
-
-echo "  [OK] Diretórios prontos (adicione suas configs depois se quiser)"
