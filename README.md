@@ -1,11 +1,13 @@
 # Arch Linux Dotfiles - TioSEUS
 
-Setup automatizado para Hyprland.
+An automated installation script for Hyprland on Arch Linux.
 
-## Como usar
+## 🚀 Installation
+
+To install and apply these dotfiles, run the following commands in your terminal:
 
 ```bash
-git clone https://github.com/TioSEUS/arch-linux-TioSEUS.git
+git clone [https://github.com/TioSEUS/arch-linux-TioSEUS.git](https://github.com/TioSEUS/arch-linux-TioSEUS.git)
 cd arch-linux-TioSEUS
-chmod +x install.sh modules/*.sh
+chmod +x install.sh validate.sh modules/*.sh
 ./install.sh
