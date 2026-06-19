@@ -1,10 +1,10 @@
-## TioSEUS Rofi Launcher
-## Grid fullscreen com ícones grandes (type-3 style)
+# TioSEUS Rofi Launcher
+# Grid fullscreen com ícones grandes (type-3 style)
 
 dir="$HOME/.config/rofi/launchers/type-3"
 theme='style-3'
 
-## Run
+# Run
 rofi \
     -show drun \
-    -theme ${dir}/${theme}.rasi
+    -theme "${dir}/${theme}.rasi"
