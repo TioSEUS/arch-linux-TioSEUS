@@ -1,3 +1,4 @@
+```bash
 #!/bin/bash
 # Configura o Rofi completo: config base + launcher + powermenu + wifi menu
 # Tudo num único módulo para evitar redundância
@@ -10,10 +11,10 @@ DOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)/dotfiles"
 echo "→ Copiando config completa do Rofi..."
 mkdir -p ~/.config/rofi
 
-# 1. Config base (mantém compatibilidade com 'rofi -show drun' sem theme)
+# 1. Config base
 cp "$DOT/rofi/config.rasi" ~/.config/rofi/config.rasi
 
-# 2. Paleta TioSEUS (importada pelos launchers/powermenus)
+# 2. Paleta TioSEUS
 mkdir -p ~/.config/rofi/colors
 cp "$DOT/rofi/colors/tioseus.rasi" ~/.config/rofi/colors/
 
@@ -41,7 +42,7 @@ if [ -f "$DOT/rofi/images/user.png" ]; then
     cp "$DOT/rofi/images/user.png" ~/.config/rofi/images/
     echo "  [OK] user.png instalado"
 else
-    echo "  [INFO] Sem user.png — powermenu vai mostrar espaço vazio (não quebra)"
+    echo "  [INFO] Sem user.png — powermenu mostra espaço vazio (não quebra)"
 fi
 
 # 7. Permissões de execução nos scripts
