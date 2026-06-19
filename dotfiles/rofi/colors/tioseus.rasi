@@ -1,0 +1,14 @@
+/**
+ * TioSEUS Colorscheme for Rofi
+ * Paleta: azul #007acc + dourado #c9a063 + fundo escuro
+ */
+
+* {
+    background:     #0a0e14FF;
+    background-alt: #121f35FF;
+    foreground:     #b3b1adFF;
+    selected:       #007accFF;
+    active:         #33a1ffFF;
+    urgent:         #ff4444FF;
+    gold:           #c9a063FF;
+}
