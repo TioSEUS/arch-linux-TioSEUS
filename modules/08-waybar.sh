@@ -1,6 +1,6 @@
 #!/bin/bash
 # Configura Waybar e Darkman
-# (SwayNC é tratado pelo módulo 16-swaync.sh)
+# (SwayNC é tratado pelo módulo 09-swaync.sh)
 
 set -euo pipefail
 
