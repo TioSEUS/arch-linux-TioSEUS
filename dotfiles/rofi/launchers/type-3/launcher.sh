@@ -1,5 +1,3 @@
-#!/usr/bin/env bash
-
 ## TioSEUS Rofi Launcher
 ## Grid fullscreen com ícones grandes (type-3 style)
 
