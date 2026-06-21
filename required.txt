@@ -8,13 +8,10 @@ swaync
 darkman
 
 # Launcher / Menus
-rofi
 rofi-wayland
 
 # Wallpaper
 swww
-mpvpaper
-hyprpaper
 
 # Login / Lock / Idle
 sddm
@@ -22,7 +19,6 @@ hyprlock
 hypridle
 
 # Polkit / Auth
-hyprpolkitagent
 polkit-gnome
 gnome-keyring
 
@@ -30,10 +26,8 @@ gnome-keyring
 libnotify
 wl-clipboard
 cliphist
-clipvault
 
 # Screenshots
-hyprshot
 grim
 slurp
 
@@ -49,7 +43,6 @@ blueman
 
 # Fonts / Icons / Themes
 ttf-jetbrains-mono-nerd
-ttf-cascadia-code-nerd
 ttf-nerd-fonts-symbols
 ttf-font-awesome
 papirus-icon-theme
@@ -63,17 +56,14 @@ qt5-graphicaleffects
 qt5-quickcontrols2
 qt6-multimedia
 qt6-5compat
-qt5compat
 
-# Fetch / Prompt / Theming
+# Fetch / Prompt
 fastfetch
 starship
-wallust
 
 # File managers
 yazi
 thunar
-ffmpegthumbs
 poppler
 tumbler
 gvfs
@@ -83,7 +73,6 @@ code
 vim
 
 # Display utils
-nwg-displays
 nwg-look
 brightnessctl
 
