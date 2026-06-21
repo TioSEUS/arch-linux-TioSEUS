@@ -134,6 +134,7 @@ MODULES=(
     "14-fastfetch.sh"
     "15-scripts.sh"
     "16-final.sh"
+    "17-hypr-scripts.sh"
 )
 
 START_TIME=$SECONDS
