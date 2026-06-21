@@ -1,0 +1,26 @@
+# === Pacotes opcionais (pergunta se instala) ===
+# Performance / Cooling
+coolercontrol
+
+# Gaming
+mangohud
+lib32-mangohud
+gamemode
+gamescope
+
+# Browse extras
+zen-browser-bin
+
+# Social
+vesktop
+
+# Media
+mpv
+obs-studio
+
+# System monitoring
+btop
+htop
+
+# Cursor themes
+bibata-cursor-theme-bin
