@@ -1,0 +1,104 @@
+# === Pacotes oficiais essenciais (pacman) ===
+# WM / Shell
+hyprland
+kitty
+fish
+waybar
+swaync
+darkman
+
+# Launcher / Menus
+rofi
+rofi-wayland
+
+# Wallpaper
+swww
+mpvpaper
+hyprpaper
+
+# Login / Lock / Idle
+sddm
+hyprlock
+hypridle
+
+# Polkit / Auth
+hyprpolkitagent
+polkit-gnome
+gnome-keyring
+
+# Notifications / Clipboard
+libnotify
+wl-clipboard
+cliphist
+clipvault
+
+# Screenshots
+hyprshot
+grim
+slurp
+
+# Audio / Media
+pavucontrol
+playerctl
+cava
+
+# Network / Bluetooth
+networkmanager
+network-manager-applet
+blueman
+
+# Fonts / Icons / Themes
+ttf-jetbrains-mono-nerd
+ttf-cascadia-code-nerd
+ttf-nerd-fonts-symbols
+ttf-font-awesome
+papirus-icon-theme
+adwaita-icon-theme
+gnome-themes-extra
+
+# QT / GTK integration
+qt5ct
+qt6ct
+qt5-graphicaleffects
+qt5-quickcontrols2
+qt6-multimedia
+qt6-5compat
+qt5compat
+
+# Fetch / Prompt / Theming
+fastfetch
+starship
+wallust
+
+# File managers
+yazi
+thunar
+ffmpegthumbs
+poppler
+tumbler
+gvfs
+
+# Editor / Tools
+code
+vim
+
+# Display utils
+nwg-displays
+nwg-look
+brightnessctl
+
+# XDG / Portals
+xdg-desktop-portal
+xdg-desktop-portal-hyprland
+xdg-desktop-portal-gtk
+xorg-xwayland
+
+# Hardware utils
+bc
+imagemagick
+ffmpeg
+python
+git
+base-devel
+rsync
+wget
