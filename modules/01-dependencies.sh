@@ -98,7 +98,13 @@ done
 # === PACOTES AUR ===
 AUR_PKGS=(
     hyprpaper
-    clipvault
+    hyprshot-git
+    wallust
+    hyprshade
+    mpvpaper
+    ttf-cascadia-code-nerd
+    ffmpegthumbs
+    nwg-displays
     bibata-cursor-theme-bin
 )
 
