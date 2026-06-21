@@ -26,8 +26,8 @@ configuration {
     element-border-radius:  100%;
 
     background-window:      @bgcolor;
-    background-normal:      rgba(121f35b3);
-    background-selected:    rgba(007acc66);
+    background-normal:      #121f35b3;
+    background-selected:    #007acc66;
     foreground-normal:      @foreground;
     foreground-selected:    @gold;
 }
