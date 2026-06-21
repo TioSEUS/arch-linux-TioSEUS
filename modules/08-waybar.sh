@@ -1,6 +1,6 @@
 #!/bin/bash
-# Configura Waybar e Darkman
-# (SwayNC é tratado pelo módulo 09-swaync.sh)
+# Configura Waybar + Darkman
+# Preserva identidade visual do TioSEUS (pílulas + bordas azuis + hover dourado)
 
 set -euo pipefail
 
@@ -8,18 +8,13 @@ DOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)/dotfiles"
 
 echo "→ Copiando config do Waybar..."
 mkdir -p ~/.config/waybar
-if [ -f "$DOT/waybar/config.jsonc" ]; then
-    cp "$DOT/waybar/config.jsonc" ~/.config/waybar/
-fi
-if [ -f "$DOT/waybar/style.css" ]; then
-    cp "$DOT/waybar/style.css" ~/.config/waybar/
-fi
-echo "  [OK] Waybar instalado"
+cp "$DOT/waybar/config.jsonc" ~/.config/waybar/
+cp "$DOT/waybar/style.css"  ~/.config/waybar/
+echo "  [OK] Waybar instalado (pílulas azuis + hover dourado)"
 
 echo "→ Preparando Darkman..."
 mkdir -p ~/.config/darkman
 
-# Cria config mínima do darkman se não existir
 if [ ! -f ~/.config/darkman/config.yml ]; then
     cat > ~/.config/darkman/config.yml << 'EOF'
 threshold:
@@ -30,3 +25,7 @@ EOF
 else
     echo "  [OK] darkman: config já existia"
 fi
+
+echo
+echo "  [INFO] Para reiniciar a waybar depois de editar:"
+echo "         killall waybar; waybar &"
