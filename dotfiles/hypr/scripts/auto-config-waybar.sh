@@ -1,12 +1,13 @@
 #!/bin/bash
 # Auto-config da waybar: detecta notebook vs desktop e gera config apropriado
 # - NOTEBOOK: bateria, bluetooth, rede, workspaces, programas, wallpaper, liga/reboot/sddm, memória, cpu
-# - DESKTOP: mantém config completa (com GPU, temperatura GPU, etc)
+# - DESKTOP: copia config completa do repo (com GPU, temperatura GPU, etc)
 
 set -uo pipefail
 
+DOTFILES_HYPR="$HOME/.config/hypr"
 WAYBAR_CONF="$HOME/.config/waybar/config.jsonc"
-WALLPAPER_SCRIPT="$HOME/.config/scripts/muda_wallpaper.sh"
+REPO_WAYBAR_CONF=""  # será preenchido abaixo
 
 echo "→ Detectando tipo de sistema (notebook vs desktop)..."
 
@@ -15,19 +16,34 @@ HAS_BATTERY=false
 if [ -d /sys/class/power_supply ]; then
     if ls /sys/class/power_supply/BAT* >/dev/null 2>&1; then
         HAS_BATTERY=true
-        BAT_NAME=$(ls /sys/class/power_supply/BAT* | head -1 | xargs basename)
+        BAT_NAME=$(ls /sys/class/power_supply/BAT* 2>/dev/null | head -1 | xargs basename)
         echo "  [OK] Bateria detectada: $BAT_NAME → modo NOTEBOOK"
     fi
 fi
 
 if [ "$HAS_BATTERY" = "false" ]; then
     echo "  [OK] Sem bateria → modo DESKTOP (mantém config atual)"
-    # Não faz nada — mantém o config.jsonc que já está no lugar (desktop)
+    # Garante que o config do repo está no lugar
+    if [ ! -f "$WAYBAR_CONF" ]; then
+        echo "  [WARN] Waybar config não existe — rodando módulo 08-waybar.sh"
+        # Tenta achar o módulo no repo
+        for path in "$HOME/arch-linux-TioSEUS" "$HOME/Projetos/arch-linux-TioSEUS" "$HOME/dotfiles/arch-linux-TioSEUS"; do
+            if [ -f "$path/dotfiles/waybar/config.jsonc" ]; then
+                mkdir -p "$HOME/.config/waybar"
+                cp "$path/dotfiles/waybar/config.jsonc" "$WAYBAR_CONF"
+                cp "$path/dotfiles/waybar/style.css" "$HOME/.config/waybar/style.css"
+                echo "  [OK] Config copiada do repo: $path"
+                break
+            fi
+        done
+    fi
     exit 0
 fi
 
 # === MODO NOTEBOOK — gera config simplificado ===
 echo "→ Gerando config da waybar para notebook..."
+
+mkdir -p "$HOME/.config/waybar"
 
 cat > "$WAYBAR_CONF" << 'WAYBAR_EOF'
 {
@@ -183,10 +199,17 @@ cat > "$WAYBAR_CONF" << 'WAYBAR_EOF'
 }
 WAYBAR_EOF
 
+# Garante que o style.css está no lugar (não muda entre notebook/desktop)
+for path in "$HOME/arch-linux-TioSEUS" "$HOME/Projetos/arch-linux-TioSEUS" "$HOME/dotfiles/arch-linux-TioSEUS"; do
+    if [ -f "$path/dotfiles/waybar/style.css" ] && [ ! -f "$HOME/.config/waybar/style.css" ]; then
+        cp "$path/dotfiles/waybar/style.css" "$HOME/.config/waybar/style.css"
+        break
+    fi
+done
+
 echo "  [OK] Waybar configurada para notebook"
 echo "    • Bateria ativa"
 echo "    • Sem GPU/temp (não relevante em notebook)"
-echo "    • Sem cava/idle_inhibitor (desnecessário)"
 
 # Reinicia waybar
 echo "→ Reiniciando waybar..."
