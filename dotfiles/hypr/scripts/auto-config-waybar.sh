@@ -1,3 +1,4 @@
+#!/bin/bash
 # Auto-config da waybar: detecta notebook vs desktop e gera config apropriado
 # - NOTEBOOK: bateria, bluetooth, rede, workspaces, programas, wallpaper, liga/reboot/sddm, memória, cpu
 # - DESKTOP: mantém config completa (com GPU, temperatura GPU, etc)
