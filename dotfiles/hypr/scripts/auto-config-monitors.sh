@@ -1,3 +1,4 @@
+#!/bin/bash
 # Auto-detecção de monitores + geração dinâmica de config
 # Resolve problema de monitores com nomes diferentes (DP-1, HDMI-A-2, eDP-1, etc)
 
