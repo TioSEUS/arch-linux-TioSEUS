@@ -9,7 +9,7 @@ gamemode
 gamescope
 
 # Browse extras
-zen-browser-bin
+brave
 
 # Social
 vesktop
