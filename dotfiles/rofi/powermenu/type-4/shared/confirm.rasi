@@ -18,7 +18,7 @@ window {
     cursor:         "default";
     background-color: @background;
     border:         2px solid;
-    border-color:   rgba(c9a06380);
+    border-color:   #c9a06380;
 }
 
 mainbox {
