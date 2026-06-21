@@ -1,13 +1,11 @@
 #!/bin/bash
 # Instala todos os pacotes necessários de uma vez
-# Versão robusta: mostra progresso, não trava, tem fallback
-
-# Não usar "set -e" para que um pacote que falhe não derrube todo o script
+# Lê hardware detectado do módulo 00-check.sh
 
 LOG_FILE="/tmp/tioseus_pacman.log"
 AUR_LOG_FILE="/tmp/tioseus_aur.log"
 
-echo "→ Verificando repositório multilib (necessário para mangohud/lib32)..."
+echo "→ Verificando repositório multilib (necessário para lib32-*)..."
 if ! grep -qE '^\[multilib\]' /etc/pacman.conf; then
     echo "  [INFO] Habilitando [multilib] em /etc/pacman.conf..."
     sudo sed -i '/^#\[multilib\]/,/^#Include/ s/^#//' /etc/pacman.conf
@@ -26,41 +24,56 @@ sudo pacman -Syu --noconfirm 2>&1 | tee "$LOG_FILE" || {
     echo "  [WARN] pacman -Syu reportou erro, mas continuando..."
 }
 
-# Lista de pacotes oficiais (pacman)
+# === MICROCODE (baseado na CPU detectada) ===
+MICROCODE_PKG=$(cat /tmp/.tioseus_microcode 2>/dev/null)
+if [ -n "$MICROCODE_PKG" ]; then
+    echo
+    echo "→ Instalando microcode: $MICROCODE_PKG"
+    sudo pacman -S --noconfirm --needed "$MICROCODE_PKG" >>"$LOG_FILE" 2>&1 && \
+        echo "  [OK] $MICROCODE_PKG instalado"
+fi
+
+# === DRIVERS GPU (baseado na GPU detectada) ===
+echo
+echo "→ Instalando drivers GPU..."
+while IFS= read -r drv; do
+    [ -z "$drv" ] && continue
+    if pacman -Qi "$drv" &>/dev/null; then
+        echo "  [SKIP] $drv já está instalado"
+    else
+        if sudo pacman -S --noconfirm --needed "$drv" >>"$LOG_FILE" 2>&1 </dev/null; then
+            echo "  [OK]   $drv"
+        else
+            echo "  [FAIL] $drv"
+        fi
+    fi
+done < /tmp/.tioseus_gpu_drivers
+
+# === PACOTES OFICIAIS ===
 PACMAN_PKGS=(
-    hyprland
-    kitty
-    fish
-    rofi
-    waybar
-    swaync
-    darkman
-    hyprpaper
-    sddm
-    qt6-multimedia
-    qt5compat
-    fcitx5
-    fcitx5-configtool
-    polkit-gnome
-    grim
-    slurp
-    wl-clipboard
+    hyprland kitty fish rofi waybar swaync darkman
+    swww mpvpaper
+    sddm qt6-multimedia qt5compat
+    fcitx5 fcitx5-configtool polkit-gnome
     qt6ct
-    ttf-jetbrains-mono-nerd
-    ttf-nerd-fonts-symbols
-    papirus-icon-theme
-    adwaita-icon-theme
-    gnome-keyring
-    networkmanager
-    fastfetch
-    starship
-    mangohud
-    lib32-mangohud
-    cava
-    fastfetch
+    ttf-jetbrains-mono-nerd ttf-nerd-fonts-symbols
+    papirus-icon-theme adwaita-icon-theme
+    gnome-keyring networkmanager
+    fastfetch starship cava
+    hyprlock hypridle hyprshade
+    hyprshot wl-clipboard cliphist
+    playerctl brightnessctl
+    grim slurp
+    wallust
+    qt5-graphicaleffects qt5-quickcontrols2
     network-manager-applet
-    hyprshade
-    playerctl
+    xdg-desktop-portal xdg-desktop-portal-hyprland xdg-desktop-portal-gtk
+    nwg-displays nwg-look
+    code  # VS Code
+    yazi ffmpegthumbs poppler
+    python matugen
+    gvfs
+    thunar
 )
 
 echo
@@ -82,13 +95,11 @@ for pkg in "${PACMAN_PKGS[@]}"; do
     fi
 done
 
-# Lista de pacotes AUR (via yay)
+# === PACOTES AUR ===
 AUR_PKGS=(
-    swww
-    superfile
-    qt6gtk2
-    hyprlock
-    hypridle
+    hyprpaper
+    clipvault
+    bibata-cursor-theme-bin
 )
 
 echo
@@ -104,10 +115,6 @@ for pkg in "${AUR_PKGS[@]}"; do
     fi
 
     printf "  [..]   %-30s (compilando...)\n" "$pkg"
-    # Mostra progresso: log vai pro arquivo, mas user vê que tá rodando
-    # </dev/null garante EOF em qualquer prompt
-    # --mflags --nocheck pula testes longos
-    # YAY_NO_PROMPT=1 desabilita TODOS os prompts interativos
     if YAY_NO_PROMPT=1 yay -S --noconfirm --needed --mflags --nocheck --cleanafter "$pkg" >>"$AUR_LOG_FILE" 2>&1 </dev/null; then
         echo -e "\r  [OK]   $pkg"
     else
@@ -115,34 +122,6 @@ for pkg in "${AUR_PKGS[@]}"; do
         FAILED_AUR+=("$pkg")
     fi
 done
-
-# Fallback: se superfile falhou, instala via script oficial
-if [[ " ${FAILED_AUR[@]} " =~ " superfile " ]]; then
-    echo
-    echo "→ [FALLBACK] Instalando superfile via instalador oficial..."
-    if command -v curl &>/dev/null; then
-        if curl -fsSL https://superfile.netlify.app/install/install.sh | bash >>"$AUR_LOG_FILE" 2>&1; then
-            echo "  [OK]   superfile (via script oficial)"
-            # remove da lista de falhas
-            FAILED_AUR=("${FAILED_AUR[@]/superfile/}")
-            FAILED_AUR=("${FAILED_AUR[@]/ /}")
-        else
-            echo "  [FAIL] superfile (fallback também falhou)"
-        fi
-    fi
-fi
-
-# Fallback: se qt6gtk2 falhou, tenta qt6-gtk2 (nome alternativo)
-if [[ " ${FAILED_AUR[@]} " =~ " qt6gtk2 " ]]; then
-    echo
-    echo "→ [FALLBACK] Tentando qt6-gtk2 como alternativa..."
-    if YAY_NO_PROMPT=1 yay -S --noconfirm --needed qt6-gtk2 >>"$AUR_LOG_FILE" 2>&1 </dev/null; then
-        echo "  [OK]   qt6-gtk2 (alternativa)"
-        FAILED_AUR=("${FAILED_AUR[@]/qt6gtk2/}")
-    else
-        echo "  [WARN] qt6gtk2 não disponível — apps Qt6 podem usar theme fallback"
-    fi
-fi
 
 # Relatório final
 echo
