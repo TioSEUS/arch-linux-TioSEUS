@@ -7,7 +7,6 @@ echo "[INFO] Configurando o Rofi para o Hyprland..."
 
 # 1. Garante que o Rofi correto (Wayland) está instalado
 # O rofi comum do X11 costuma dar erro de foco ou não abrir no Hyprland
-sudo pacman -S --needed --noconfirm rofi-wayland
 
 # 2. Cria as pastas de configuração se elas não existirem
 mkdir -p ~/.config/rofi
