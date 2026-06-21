@@ -12,7 +12,6 @@ FAIL=0
 
 echo "→ Verificando arquivos corrompidos com markdown..."
 
-# Procura arquivos com cercas markdown ou headers markdown
 for f in $(find "$SCRIPT_DIR/dotfiles" "$SCRIPT_DIR/modules" -type f \( \
     -name "*.sh" -o -name "*.rasi" -o -name "*.json" -o -name "*.css" \
     -o -name "*.jsonc" -o -name "*.conf" -o -name "*.toml" -o -name "*.qml" \
@@ -29,7 +28,7 @@ done
 if [ $FAIL -eq 1 ]; then
     echo
     echo -e "${RED}❌ Arquivos corrompidos encontrados!${NC}"
-    echo "   Abra cada um e remova as linhas com \\`\\`\\` ou ## que não pertencem ao código."
+    echo "   Abra cada um e remova as linhas com 3 backticks (cercas de codigo) ou ## que nao pertencem ao codigo."
     exit 1
 fi
 
@@ -39,11 +38,13 @@ echo -e "${GREEN}✅ Todos os arquivos estão limpos.${NC}"
 echo
 echo "→ Validando sintaxe bash dos módulos..."
 BASH_FAIL=0
-for f in "$SCRIPT_DIR"/modules/*.sh; do
-    if ! bash -n "$f" 2>/dev/null; then
-        echo -e "  ${RED}[SYNTAX ERROR]${NC} $(basename "$f")"
-        bash -n "$f" 2>&1 | head -3 | sed 's/^/    /'
-        BASH_FAIL=1
+for f in "$SCRIPT_DIR"/modules/*.sh "$SCRIPT_DIR"/install.sh "$SCRIPT_DIR"/validate.sh; do
+    if [ -f "$f" ]; then
+        if ! bash -n "$f" 2>/dev/null; then
+            echo -e "  ${RED}[SYNTAX ERROR]${NC} $(basename "$f")"
+            bash -n "$f" 2>&1 | head -3 | sed 's/^/    /'
+            BASH_FAIL=1
+        fi
     fi
 done
 
@@ -55,7 +56,7 @@ fi
 
 echo -e "${GREEN}✅ Sintaxe bash OK${NC}"
 
-# Verifica se todos os módulos têm permissão de execução
+# Verifica permissões de execução
 echo
 echo "→ Verificando permissões de execução..."
 PERM_FAIL=0
