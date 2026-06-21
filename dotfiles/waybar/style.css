@@ -2,20 +2,23 @@ window#waybar {
     background: transparent;
 }
 
-/* Aplica o estilo de pílulas para os módulos novos também */
+/* Aplica o estilo de pílulas para todos os módulos */
 #window,
-
 #workspaces,
 #cpu,
 #memory,
 #custom-gpu,
+#temperature.gpu,
 #pulseaudio,
 #pulseaudio.microphone,
 #bluetooth,
 #network,
 #tray,
 #custom-notification,
-#clock {
+#clock,
+#cava,
+#idle_inhibitor,
+#language {
     background-color: #05080f; /* Preto profundo */
     color: #b3b1ad;
     border: 2px solid #005699; /* Azul Meia-Noite */
@@ -26,7 +29,6 @@ window#waybar {
     font-size: 13px;
     font-weight: bold;
 }
-
 
 #workspaces {
     padding: 0px 6px;
@@ -51,7 +53,6 @@ window#waybar {
     margin-left: 0px;
 }
 
-/* Ajuste específico para os ícones da Steam/Discord não ficarem espremidos */
 #tray {
     padding: 0px 10px;
 }
@@ -62,7 +63,26 @@ window#waybar {
     padding: 0 8px;
 }
 
-/* Efeito de passar o mouse por cima (Hover) */
+/* === CAVA (visualizador de áudio) === */
+#cava {
+    color: #007acc;
+    font-size: 16px;
+    padding: 0 6px;
+}
+
+/* === IDLE INHIBITOR (cafeteria mode) === */
+#idle_inhibitor.activated {
+    color: #c9a063;
+    border-color: #c9a063;
+}
+
+/* === LANGUAGE (idioma do teclado) === */
+#language {
+    color: #c9a063;
+    border-color: #c9a063;
+}
+
+/* === HOVER DOS BOTÕES DE POWER === */
 #custom-shutdown:hover {
     background-color: #f38ba8; /* Vermelho ao passar o mouse no Desligar */
     color: #11111b;
@@ -78,13 +98,19 @@ window#waybar {
     color: #11111b;
 }
 
+#custom-wallpaper:hover {
+    background-color: #c9a063; /* Dourado TioSEUS */
+    color: #05080f;
+}
+
+/* === BOTÕES CUSTOM === */
 #custom-shutdown,
 #custom-reboot,
 #custom-logout,
 #custom-wallpaper {
-    background-color: #05080f; 
+    background-color: #05080f;
     color: #b3b1ad;
-    border: 2px solid #005699; 
+    border: 2px solid #005699;
     border-radius: 8px;
     padding: 0px 10px;
     margin: 4px 2px;
