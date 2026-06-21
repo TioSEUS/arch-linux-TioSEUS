@@ -1,35 +1,54 @@
-#!/usr/bin/env bash
+# Configura o Rofi completo: config base + launcher + powermenu + wifi menu
+# Paleta TioSEUS (azul + dourado + escuro)
 
-# Para o script se encontrar algum erro
-set -e
+set -euo pipefail
 
-echo "[INFO] Configurando o Rofi para o Hyprland..."
+DOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)/dotfiles"
 
-# 1. Garante que o Rofi correto (Wayland) está instalado
-# O rofi comum do X11 costuma dar erro de foco ou não abrir no Hyprland
-
-# 2. Cria as pastas de configuração se elas não existirem
+echo "→ Copiando config completa do Rofi..."
 mkdir -p ~/.config/rofi
 
-# 3. Cria o arquivo de configuração básica limpo
-# ATENÇÃO: O EOF no final tem que estar totalmente encostado na esquerda!
-cat << 'EOF' > ~/.config/rofi/config.rasi
-configuration {
-    modi: "run,drun,window";
-    icon-theme: "Oranchelo";
-    show-icons: true;
-    terminal: "kitty";
-    drun-display-format: "{icon} {name}";
-    location: 0;
-    disable-history: false;
-    hide-scrollbar: true;
-    display-drun: "   Apps ";
-    display-run: "   Run ";
-    display-window: " 󰕰  Window ";
-    sidebar-mode: true;
-}
+# 1. Config base
+cp "$DOT/rofi/config.rasi" ~/.config/rofi/config.rasi
 
-@theme "default"
-EOF
+# 2. Paleta TioSEUS
+mkdir -p ~/.config/rofi/colors
+cp "$DOT/rofi/colors/tioseus.rasi" ~/.config/rofi/colors/
 
-echo "[OK] Rofi configurado com sucesso!"
+# 3. Launcher type-3 (grid fullscreen 7x4 com ícones grandes)
+mkdir -p ~/.config/rofi/launchers/type-3/shared
+cp "$DOT/rofi/launchers/type-3/launcher.sh"        ~/.config/rofi/launchers/type-3/
+cp "$DOT/rofi/launchers/type-3/style-3.rasi"       ~/.config/rofi/launchers/type-3/
+cp "$DOT/rofi/launchers/type-3/shared/colors.rasi" ~/.config/rofi/launchers/type-3/shared/
+cp "$DOT/rofi/launchers/type-3/shared/fonts.rasi"  ~/.config/rofi/launchers/type-3/shared/
+
+# 4. Powermenu type-4 (5 botões circulares com avatar)
+mkdir -p ~/.config/rofi/powermenu/type-4/shared
+cp "$DOT/rofi/powermenu/type-4/powermenu.sh"        ~/.config/rofi/powermenu/type-4/
+cp "$DOT/rofi/powermenu/type-4/style-5.rasi"        ~/.config/rofi/powermenu/type-4/
+cp "$DOT/rofi/powermenu/type-4/shared/colors.rasi"  ~/.config/rofi/powermenu/type-4/shared/
+cp "$DOT/rofi/powermenu/type-4/shared/fonts.rasi"   ~/.config/rofi/powermenu/type-4/shared/
+cp "$DOT/rofi/powermenu/type-4/shared/confirm.rasi" ~/.config/rofi/powermenu/type-4/shared/
+
+# 5. WiFi menu
+cp "$DOT/rofi/rofi-wifi-menu.sh" ~/.config/rofi/
+
+# 6. User image (placeholder para o powermenu) — opcional
+mkdir -p ~/.config/rofi/images
+if [ -f "$DOT/rofi/images/user.png" ]; then
+    cp "$DOT/rofi/images/user.png" ~/.config/rofi/images/
+    echo "  [OK] user.png instalado"
+else
+    echo "  [INFO] Sem user.png — powermenu mostra espaço vazio (não quebra)"
+fi
+
+# 7. Permissões de execução nos scripts
+chmod +x ~/.config/rofi/launchers/type-3/launcher.sh
+chmod +x ~/.config/rofi/powermenu/type-4/powermenu.sh
+chmod +x ~/.config/rofi/rofi-wifi-menu.sh
+
+echo "  [OK] Rofi completo instalado"
+echo "    • Launcher:    ~/.config/rofi/launchers/type-3/launcher.sh"
+echo "    • Power Menu:  ~/.config/rofi/powermenu/type-4/powermenu.sh"
+echo "    • WiFi Menu:   ~/.config/rofi/rofi-wifi-menu.sh"
+echo "    • Paleta:      ~/.config/rofi/colors/tioseus.rasi"
