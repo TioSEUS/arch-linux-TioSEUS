@@ -33,5 +33,13 @@ arch-linux-TioSEUS/
 │   ├── 14-fastfetch.sh     # Personalização das informações do sistema com Fastfetch
 │   ├── 15-scripts.sh       # Scripts utilitários e auxiliares do ambiente gráfico
 │   └── 16-final.sh         # Tarefas pós-instalação e limpeza de arquivos temporários
-├── dotfiles/               # Arquivos de configuração originais que serão copiados para ~/.config
+├── ~/.config/hypr/
+│   ├── hyprland.conf           # Apenas faz source dos outros
+│   ├── monitors.conf           # Configuração de monitores
+│   ├── workspaces.conf         # Regras de workspaces
+│   ├── keybinds.conf           # Atalhos de teclado
+│   ├── window.conf             # Windowrules + decoração
+│   ├── autostart.conf          # Apps que iniciam com o Hyprland
+│   ├── hyprenv.conf            # Variáveis de ambiente (toolkit/XDG/Qt/jogos)
+│   └── userconf.conf           # Input + visual + misc + animações
 └── README.md               # Documentação do projeto
