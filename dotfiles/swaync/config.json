@@ -28,7 +28,8 @@
     "dnd",
     "notifications",
     "mpris",
-    "volume"
+    "volume",
+    "backlight"
   ],
   "widget-config": {
     "notifications": {
@@ -49,6 +50,10 @@
     "volume": {
       "label": "󰕾",
       "show-per-app": true
+    },
+    "backlight": {
+      "label": "󰃟",
+      "subsystem": "backlight"
     }
   }
 }
