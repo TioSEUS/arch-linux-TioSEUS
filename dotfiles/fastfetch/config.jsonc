@@ -26,7 +26,7 @@
     },
     {
       "type": "kernel",
-      "key": " Kernel",
+      "key": " Kernel",
       "keyColor": "blue"
     },
     {
@@ -42,17 +42,17 @@
     {
       "type": "wm",
       "key": "󰧨 WM",
-      "keyColor": "gold"
+      "keyColor": "yellow"
     },
     {
       "type": "wmtheme",
       "key": "󰉼 WM Theme",
-      "keyColor": "gold"
+      "keyColor": "yellow"
     },
     {
       "type": "terminal",
-      "key": " Terminal",
-      "keyColor": "gold"
+      "key": " Terminal",
+      "keyColor": "yellow"
     },
     {
       "type": "cpu",
@@ -67,12 +67,12 @@
     {
       "type": "memory",
       "key": "󰍛 Memory",
-      "keyColor": "gold"
+      "keyColor": "yellow"
     },
     {
       "type": "disk",
-      "key": " Disk",
-      "keyColor": "gold"
+      "key": " Disk",
+      "keyColor": "yellow"
     },
     {
       "type": "uptime",
