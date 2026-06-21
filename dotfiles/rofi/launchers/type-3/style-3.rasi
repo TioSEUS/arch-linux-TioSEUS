@@ -62,8 +62,8 @@ inputbar {
     padding:         10px;
     border:          1px solid;
     border-radius:   6px;
-    border-color:    rgba(c9a06359);
-    background-color: rgba(121f3599);
+    border-color:    #c9a06359;
+    background-color: #121f3599;
     text-color:      @foreground;
     children:        [ "prompt", "entry" ];
 }
@@ -89,7 +89,7 @@ entry {
     text-color:      inherit;
     cursor:          text;
     placeholder:     "Search...";
-    placeholder-color: rgba(b3b1ad80);
+    placeholder-color: #b3b1ad80;
 }
 
 /*****----- Listview -----*****/
@@ -144,7 +144,7 @@ element normal.normal {
 }
 
 element selected.normal {
-    background-color: rgba(007acc26);
+    background-color: #007acc26;
     text-color:       @gold;
 }
 
@@ -175,7 +175,7 @@ error-message {
     border:          0px solid;
     border-radius:   0px;
     border-color:    @selected;
-    background-color: rgba(0000001a);
+    background-color: #0000001a;
     text-color:      @foreground;
 }
 
