@@ -48,20 +48,43 @@ GPU_VENDOR="unknown"
 GPU_DRIVERS=()
 if echo "$GPU_INFO" | grep -qiE 'amd|ati|radeon|advanced micro devices'; then
     GPU_VENDOR="amd"
-    GPU_DRIVERS=("mesa" "lib32-mesa" "vulkan-radv" "lib32-vulkan-radv" "libva-mesa-driver" "lib32-libva-mesa-driver" "mesa-vdpau" "lib32-mesa-vdpau" "vulkan-mesa-layers" "lib32-vulkan-mesa-layers")
-    echo "  [OK] GPU: AMD → vai instalar drivers AMD/Mesa/RADV"
+    GPU_DRIVERS=(
+        mesa
+        lib32-mesa
+        vulkan-radv
+        lib32-vulkan-radv
+        libva-mesa-driver
+        lib32-libva-mesa-driver
+        mesa-vdpau
+        lib32-mesa-vdpau
+        vulkan-mesa-layers
+        lib32-vulkan-mesa-layers
+    )
+    echo "  [OK] GPU: AMD → vai instalar drivers Mesa/RADV/VA-API"
 elif echo "$GPU_INFO" | grep -qiE 'nvidia'; then
     GPU_VENDOR="nvidia"
-    GPU_DRIVERS=("nvidia" "nvidia-utils" "lib32-nvidia-utils" "nvidia-settings")
-    echo "  [OK] GPU: NVIDIA → vai instalar drivers proprietários NVIDIA"
+    # NVIDIA drivers são instalados via nvidia.txt (não aqui)
+    GPU_DRIVERS=()
+    echo "  [OK] GPU: NVIDIA → vai instalar drivers do nvidia.txt"
 elif echo "$GPU_INFO" | grep -qiE 'intel'; then
     GPU_VENDOR="intel"
-    GPU_DRIVERS=("mesa" "lib32-mesa" "vulkan-intel" "lib32-vulkan-intel" "intel-media-driver")
+    GPU_DRIVERS=(
+        mesa
+        lib32-mesa
+        vulkan-intel
+        lib32-vulkan-intel
+        intel-media-driver
+        libva-intel-driver
+        libva-utils
+    )
     echo "  [OK] GPU: Intel → vai instalar drivers Intel/Mesa"
 else
-    echo "  [WARN] GPU não detectada ou integrada — instalando Mesa genérico"
+    echo "  [WARN] GPU não detectada — instalando Mesa genérico"
     GPU_VENDOR="unknown"
-    GPU_DRIVERS=("mesa" "lib32-mesa" "vulkan-driver" "lib32-vulkan-driver")
+    GPU_DRIVERS=(
+        mesa
+        lib32-mesa
+    )
 fi
 
 # Exporta pros próximos módulos (instalador lê essas variáveis)
