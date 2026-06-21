@@ -16,7 +16,6 @@ configuration {
 @import "shared/fonts.rasi"
 
 * {
-    /* Resolution : 1920x1080 */
     mainbox-spacing:        50px;
     mainbox-margin:         0px 470px;
     message-margin:         0px 350px;
@@ -27,8 +26,8 @@ configuration {
     element-border-radius:  100%;
 
     background-window:      @bgcolor;
-    background-normal:      @background-alt / 70%;
-    background-selected:    @selected / 40%;
+    background-normal:      rgba(121f35b3);
+    background-selected:    rgba(007acc66);
     foreground-normal:      @foreground;
     foreground-selected:    @gold;
 }
