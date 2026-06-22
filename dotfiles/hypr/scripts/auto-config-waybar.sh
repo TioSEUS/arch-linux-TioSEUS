@@ -5,33 +5,65 @@
 
 set -uo pipefail
 
-DOTFILES_HYPR="$HOME/.config/hypr"
 WAYBAR_CONF="$HOME/.config/waybar/config.jsonc"
-REPO_WAYBAR_CONF=""  # será preenchido abaixo
+WAYBAR_STYLE="$HOME/.config/waybar/style.css"
+LOG_FILE="/tmp/tioseus-auto-config-waybar.log"
+
+# Log tudo pra debug
+exec > >(tee -a "$LOG_FILE") 2>&1
+
+echo "=========================================="
+echo "  AUTO-CONFIG WAYBAR — $(date)"
+echo "=========================================="
 
 echo "→ Detectando tipo de sistema (notebook vs desktop)..."
 
-# Detecta bateria (notebook tem /sys/class/power_supply/BAT*)
+# Detecta bateria (notebook tem /sys/class/power_supply/BAT* ou type=Battery)
 HAS_BATTERY=false
+BAT_NAME=""
+
 if [ -d /sys/class/power_supply ]; then
-    if ls /sys/class/power_supply/BAT* >/dev/null 2>&1; then
-        HAS_BATTERY=true
-        BAT_NAME=$(ls /sys/class/power_supply/BAT* 2>/dev/null | head -1 | xargs basename)
-        echo "  [OK] Bateria detectada: $BAT_NAME → modo NOTEBOOK"
+    echo "  [INFO] /sys/class/power_supply existe. Conteúdo:"
+    ls /sys/class/power_supply/ 2>/dev/null | sed 's/^/    /'
+    
+    # Procura por BAT* (mais comum)
+    for bat_path in /sys/class/power_supply/BAT*; do
+        if [ -e "$bat_path" ]; then
+            BAT_NAME=$(basename "$bat_path")
+            HAS_BATTERY=true
+            echo "  [OK] Bateria detectada: $BAT_NAME (via BAT*)"
+            break
+        fi
+    done
+    
+    # Se não achou BAT*, procura por type=Battery em qualquer dispositivo
+    if [ "$HAS_BATTERY" = "false" ]; then
+        for dev in /sys/class/power_supply/*/; do
+            if [ -f "${dev}type" ]; then
+                TYPE=$(cat "${dev}type" 2>/dev/null)
+                echo "  [INFO] $(basename "$dev") type = $TYPE"
+                if [ "$TYPE" = "Battery" ]; then
+                    BAT_NAME=$(basename "$dev")
+                    HAS_BATTERY=true
+                    echo "  [OK] Bateria detectada: $BAT_NAME (via type=Battery)"
+                    break
+                fi
+            fi
+        done
     fi
 fi
 
 if [ "$HAS_BATTERY" = "false" ]; then
     echo "  [OK] Sem bateria → modo DESKTOP (mantém config atual)"
+    
     # Garante que o config do repo está no lugar
     if [ ! -f "$WAYBAR_CONF" ]; then
-        echo "  [WARN] Waybar config não existe — rodando módulo 08-waybar.sh"
-        # Tenta achar o módulo no repo
-        for path in "$HOME/arch-linux-TioSEUS" "$HOME/Projetos/arch-linux-TioSEUS" "$HOME/dotfiles/arch-linux-TioSEUS"; do
+        echo "  [WARN] Waybar config não existe — tentando copiar do repo"
+        for path in "$HOME/arch-linux-TioSEUS" "$HOME/Projetos/arch-linux-TioSEUS" "$HOME/dotfiles/arch-linux-TioSEUS" "$HOME/Downloads/arch-linux-TioSEUS"; do
             if [ -f "$path/dotfiles/waybar/config.jsonc" ]; then
                 mkdir -p "$HOME/.config/waybar"
                 cp "$path/dotfiles/waybar/config.jsonc" "$WAYBAR_CONF"
-                cp "$path/dotfiles/waybar/style.css" "$HOME/.config/waybar/style.css"
+                cp "$path/dotfiles/waybar/style.css" "$WAYBAR_STYLE" 2>/dev/null
                 echo "  [OK] Config copiada do repo: $path"
                 break
             fi
@@ -199,17 +231,16 @@ cat > "$WAYBAR_CONF" << 'WAYBAR_EOF'
 }
 WAYBAR_EOF
 
-# Garante que o style.css está no lugar (não muda entre notebook/desktop)
-for path in "$HOME/arch-linux-TioSEUS" "$HOME/Projetos/arch-linux-TioSEUS" "$HOME/dotfiles/arch-linux-TioSEUS"; do
-    if [ -f "$path/dotfiles/waybar/style.css" ] && [ ! -f "$HOME/.config/waybar/style.css" ]; then
-        cp "$path/dotfiles/waybar/style.css" "$HOME/.config/waybar/style.css"
+# Garante que o style.css está no lugar
+for path in "$HOME/arch-linux-TioSEUS" "$HOME/Projetos/arch-linux-TioSEUS" "$HOME/dotfiles/arch-linux-TioSEUS" "$HOME/Downloads/arch-linux-TioSEUS"; do
+    if [ -f "$path/dotfiles/waybar/style.css" ] && [ ! -f "$WAYBAR_STYLE" ]; then
+        cp "$path/dotfiles/waybar/style.css" "$WAYBAR_STYLE"
+        echo "  [OK] style.css copiado do repo"
         break
     fi
 done
 
-echo "  [OK] Waybar configurada para notebook"
-echo "    • Bateria ativa"
-echo "    • Sem GPU/temp (não relevante em notebook)"
+echo "  [OK] Waybar configurada para notebook (bateria: $BAT_NAME)"
 
 # Reinicia waybar
 echo "→ Reiniciando waybar..."
@@ -220,4 +251,5 @@ waybar &
 echo
 echo "═══════════════════════════════════════════════════"
 echo "  ✅ WAYBAR CONFIGURADA PARA NOTEBOOK!"
+echo "  • Bateria: $BAT_NAME"
 echo "═══════════════════════════════════════════════════"
