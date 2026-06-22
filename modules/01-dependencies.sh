@@ -95,16 +95,16 @@ for pkg in "${PACMAN_PKGS[@]}"; do
     fi
 done
 
-# === PACOTES AUR ===
+# === PACOTES AUR (versões -bin = pré-compiladas, mais rápidas) ===
 AUR_PKGS=(
     hyprpaper
-    hyprshot-git
-    wallust
-    hyprshade
-    mpvpaper
+    hyprshot-bin
+    wallust-bin
+    hyprshade-bin
+    mpvpaper-bin
     ttf-cascadia-code-nerd
     ffmpegthumbs
-    nwg-displays
+    nwg-displays-git
     bibata-cursor-theme-bin
 )
 
