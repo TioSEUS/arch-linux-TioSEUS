@@ -1,120 +1,62 @@
-#!/bin/bash
-# Verificações iniciais + detecção de hardware
-# Detecta: CPU vendor (Intel/AMD), GPU vendor (AMD/NVIDIA/Intel), microcode necessário
-
-echo "→ Verificando sistema..."
-
-# Arch Linux
-if ! grep -q 'Arch Linux' /etc/os-release 2>/dev/null; then
-    echo "  [WARN] /etc/os-release não confirma Arch Linux — prosseguindo mesmo assim"
-fi
-
-# Conexão com internet
-if ! ping -c 1 -W 3 archlinux.org &>/dev/null; then
-    echo "  [ERR] Sem conexão com a internet."
-    exit 1
-fi
-echo "  [OK] Internet OK"
-
-# === DETECÇÃO DE CPU ===
-echo
-echo "→ Detectando CPU..."
-CPU_INFO=$(grep -m1 'vendor_id' /proc/cpuinfo | awk '{print $3}')
-if [ "$CPU_INFO" = "GenuineIntel" ]; then
-    CPU_VENDOR="intel"
-    MICROCODE_PKG="intel-ucode"
-    echo "  [OK] CPU: Intel → vai instalar $MICROCODE_PKG"
-elif [ "$CPU_INFO" = "AuthenticAMD" ]; then
-    CPU_VENDOR="amd"
-    MICROCODE_PKG="amd-ucode"
-    echo "  [OK] CPU: AMD → vai instalar $MICROCODE_PKG"
-else
-    CPU_VENDOR="unknown"
-    MICROCODE_PKG=""
-    echo "  [WARN] CPU vendor desconhecido: $CPU_INFO — sem microcode"
-fi
-
-# === DETECÇÃO DE GPU ===
+# === DETECÇÃO DE GPU (por vendor ID — 100% confiável) ===
 echo
 echo "→ Detectando GPU..."
-# Tenta lspci, fallback pra /sys
-if command -v lspci &>/dev/null; then
-    GPU_INFO=$(lspci -nn | grep -iE 'vga|3d|display' | head -1)
-else
-    GPU_INFO=$(cat /sys/class/drm/card*/device/vendor 2>/dev/null | head -1)
-fi
 
 GPU_VENDOR="unknown"
 GPU_DRIVERS=()
-if echo "$GPU_INFO" | grep -qiE 'amd|ati|radeon|advanced micro devices'; then
-    GPU_VENDOR="amd"
-    GPU_DRIVERS=(
-        mesa
-        lib32-mesa
-        vulkan-radv
-        lib32-vulkan-radv
-        libva-mesa-driver
-        lib32-libva-mesa-driver
-        mesa-vdpau
-        lib32-mesa-vdpau
-        vulkan-mesa-layers
-        lib32-vulkan-mesa-layers
-    )
-    echo "  [OK] GPU: AMD → vai instalar drivers Mesa/RADV/VA-API"
-elif echo "$GPU_INFO" | grep -qiE 'nvidia'; then
-    GPU_VENDOR="nvidia"
-    # NVIDIA drivers são instalados via nvidia.txt (não aqui)
-    GPU_DRIVERS=()
-    echo "  [OK] GPU: NVIDIA → vai instalar drivers do nvidia.txt"
-elif echo "$GPU_INFO" | grep -qiE 'intel'; then
-    GPU_VENDOR="intel"
-    GPU_DRIVERS=(
-        mesa
-        lib32-mesa
-        vulkan-intel
-        lib32-vulkan-intel
-        intel-media-driver
-        libva-intel-driver
-        libva-utils
-    )
-    echo "  [OK] GPU: Intel → vai instalar drivers Intel/Mesa"
+
+# Método 1: vendor ID do lspci (mais confiável)
+# 1002 = AMD, 10de = NVIDIA, 8086 = Intel
+if command -v lspci &>/dev/null; then
+    # Pega só linhas de VGA/3D/Display (classes 0300, 0302, 0380)
+    GPU_LINE=$(lspci -nn | grep -iE '\[(0300|0302|0380)\]' | head -1)
+    # Extrai o vendor ID (4 hex antes do ":")
+    GPU_VENDOR_ID=$(echo "$GPU_LINE" | grep -oE '\[[0-9a-f]{4}:[0-9a-f]{4}\]' | head -1 | cut -d: -f1 | tr -d '[]')
+
+    case "$GPU_VENDOR_ID" in
+        1002)
+            GPU_VENDOR="amd"
+            GPU_DRIVERS=(mesa lib32-mesa vulkan-radv lib32-vulkan-radv libva-mesa-driver lib32-libva-mesa-driver mesa-vdpau lib32-mesa-vdpau)
+            echo "  [OK] GPU: AMD (vendor 1002) → drivers Mesa/RADV"
+            ;;
+        10de)
+            GPU_VENDOR="nvidia"
+            echo "  [OK] GPU: NVIDIA (vendor 10de) → drivers do nvidia.txt"
+            ;;
+        8086)
+            GPU_VENDOR="intel"
+            GPU_DRIVERS=(mesa lib32-mesa vulkan-intel lib32-vulkan-intel intel-media-driver libva-intel-driver libva-utils)
+            echo "  [OK] GPU: Intel (vendor 8086) → drivers Intel/Mesa"
+            ;;
+        *)
+            # Fallback: tenta pelo nome
+            if echo "$GPU_LINE" | grep -qiE 'amd|ati|radeon'; then
+                GPU_VENDOR="amd"
+                GPU_DRIVERS=(mesa lib32-mesa vulkan-radv lib32-vulkan-radv)
+                echo "  [OK] GPU: AMD (por nome) → drivers Mesa/RADV"
+            elif echo "$GPU_LINE" | grep -qi 'nvidia'; then
+                GPU_VENDOR="nvidia"
+                echo "  [OK] GPU: NVIDIA (por nome)"
+            elif echo "$GPU_LINE" | grep -qi 'intel'; then
+                GPU_VENDOR="intel"
+                GPU_DRIVERS=(mesa lib32-mesa vulkan-intel lib32-vulkan-intel intel-media-driver)
+                echo "  [OK] GPU: Intel (por nome) → drivers Intel/Mesa"
+            else
+                echo "  [WARN] GPU não identificada (vendor=$GPU_VENDOR_ID, linha=$GPU_LINE)"
+                GPU_DRIVERS=(mesa lib32-mesa)
+            fi
+            ;;
+    esac
 else
-    echo "  [WARN] GPU não detectada — instalando Mesa genérico"
-    GPU_VENDOR="unknown"
-    GPU_DRIVERS=(
-        mesa
-        lib32-mesa
-    )
+    # Fallback sem lspci: lê /sys/class/drm
+    for vendor_file in /sys/class/drm/card*/device/vendor; do
+        [ -f "$vendor_file" ] || continue
+        VENDOR_DEC=$(cat "$vendor_file" 2>/dev/null)
+        case "$VENDOR_DEC" in
+            4098)  GPU_VENDOR="amd";   GPU_DRIVERS=(mesa lib32-mesa vulkan-radv lib32-vulkan-radv); break ;;
+            4318)  GPU_VENDOR="nvidia"; break ;;
+            32902) GPU_VENDOR="intel"; GPU_DRIVERS=(mesa lib32-mesa vulkan-intel lib32-vulkan-intel intel-media-driver); break ;;
+        esac
+    done
+    echo "  [OK] GPU: $GPU_VENDOR (via /sys/class/drm)"
 fi
-
-# Exporta pros próximos módulos (instalador lê essas variáveis)
-echo "$CPU_VENDOR" > /tmp/.tioseus_cpu_vendor
-echo "$MICROCODE_PKG" > /tmp/.tioseus_microcode
-echo "$GPU_VENDOR" > /tmp/.tioseus_gpu_vendor
-printf '%s\n' "${GPU_DRIVERS[@]}" > /tmp/.tioseus_gpu_drivers
-
-# yay
-if ! command -v yay &>/dev/null; then
-    echo "  [INFO] yay não encontrado. Instalando..."
-    sudo pacman -S --needed --noconfirm base-devel git
-    TMP_YAY="$(mktemp -d)"
-    git clone https://aur.archlinux.org/yay.git "$TMP_YAY"
-    (cd "$TMP_YAY" && makepkg -si --noconfirm)
-    rm -rf "$TMP_YAY"
-fi
-echo "  [OK] yay disponível"
-
-# Espaço em disco
-FREE_GB=$(df -BG / | awk 'NR==2 {print $4}' | tr -d 'G')
-if [ "$FREE_GB" -lt 8 ]; then
-    echo "  [WARN] Pouco espaço em disco: ${FREE_GB}GB livre (recomendado: 8GB+)"
-fi
-
-echo
-echo "→ Resumo do hardware detectado:"
-echo "  • CPU:  $CPU_VENDOR"
-echo "  • GPU:  $GPU_VENDOR"
-echo "  • ucode: $MICROCODE_PKG"
-echo "  • Drivers GPU: ${GPU_DRIVERS[*]}"
-echo
-echo "  [OK] Tudo pronto para instalar"
