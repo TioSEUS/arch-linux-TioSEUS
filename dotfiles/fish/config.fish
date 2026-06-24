@@ -6,39 +6,45 @@ if status is-login
 end
 
 if status is-interactive
-    # Comandos para rodar em sessões interativas
     fastfetch
-
-    # Desativar a mensagem de Boas-Vindas do fish
     set -g fish_greeting ''
-
     if type -q starship
-        # Inicializar o prompt do Starship
         starship init fish | source
     end
 end
 
-
-# --- Aliases (Atalhos de Comandos) ---
+# --- Aliases ---
 alias fm="yazi"
 alias atualizar='yay -Syu'
 alias limpar='yay -Sc'
 
-# === ATALHOS DE CONFIGURAÇÃO (abrem no VS Code) ===
-alias conf-hypr='code ~/.config/hypr/hyprland.conf'
-alias conf-fish='code ~/.config/fish/config.fish'
-alias conf-kitty='code ~/.config/kitty/kitty.conf'
-alias conf-rofi='code ~/.config/rofi/config.rasi'
-alias conf-waybar='code ~/.config/waybar/config.jsonc'
-alias conf-waybar-style='code ~/.config/waybar/style.css'
-alias conf-swaync='code ~/.config/swaync/config.json'
-alias conf-cava='code ~/.config/cava/config'
-alias conf-fastfetch='code ~/.config/fastfetch/config.jsonc'
+# === EDITOR INTELIGENTE (code → nano → vim) ===
+# Detecta qual editor está instalado e usa o primeiro disponível
+# Resolve erro 127 no notebook (onde VS Code não está instalado)
+if type -q code
+    set -g TIOSEUS_EDITOR "code"
+else if type -q nano
+    set -g TIOSEUS_EDITOR "nano"
+else if type -q vim
+    set -g TIOSEUS_EDITOR "vim"
+else
+    set -g TIOSEUS_EDITOR "vi"
+end
 
-# === EDITOR PADRÃO ===
-set -gx EDITOR code
-set -gx VISUAL code
-set -gx SUDO_EDITOR 'code --wait'
+# === ATALHOS DE CONFIGURAÇÃO (usam o editor detectado) ===
+alias conf-hypr="$TIOSEUS_EDITOR ~/.config/hypr/hyprland.conf"
+alias conf-fish="$TIOSEUS_EDITOR ~/.config/fish/config.fish"
+alias conf-kitty="$TIOSEUS_EDITOR ~/.config/kitty/kitty.conf"
+alias conf-rofi="$TIOSEUS_EDITOR ~/.config/rofi/config.rasi"
+alias conf-waybar="$TIOSEUS_EDITOR ~/.config/waybar/config.jsonc"
+alias conf-waybar-style="$TIOSEUS_EDITOR ~/.config/waybar/style.css"
+alias conf-swaync="$TIOSEUS_EDITOR ~/.config/swaync/config.json"
+alias conf-cava="$TIOSEUS_EDITOR ~/.config/cava/config"
+alias conf-fastfetch="$TIOSEUS_EDITOR ~/.config/fastfetch/config.jsonc"
+
+# === EDITOR PADRÃO (pra git commit, sudoedit, etc) ===
+set -gx EDITOR $TIOSEUS_EDITOR
+set -gx VISUAL $TIOSEUS_EDITOR
 
 # --- Otimização para Jogos (AMD) ---
 set -gx AMD_DEBUG ngg
