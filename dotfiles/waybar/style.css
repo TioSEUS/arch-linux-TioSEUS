@@ -2,13 +2,10 @@ window#waybar {
     background: transparent;
 }
 
-/* Aplica o estilo de pílulas para todos os módulos */
 #window,
 #workspaces,
 #cpu,
 #memory,
-#custom-gpu,
-#temperature.gpu,
 #pulseaudio,
 #pulseaudio.microphone,
 #bluetooth,
@@ -16,12 +13,10 @@ window#waybar {
 #tray,
 #custom-notification,
 #clock,
-#cava,
-#idle_inhibitor,
-#language {
-    background-color: #05080f; /* Preto profundo */
+#battery {
+    background-color: #05080f;
     color: #b3b1ad;
-    border: 2px solid #005699; /* Azul Meia-Noite */
+    border: 2px solid #005699;
     border-radius: 8px;
     padding: 0px 10px;
     margin: 4px 2px;
@@ -30,80 +25,19 @@ window#waybar {
     font-weight: bold;
 }
 
-#workspaces {
-    padding: 0px 6px;
-}
+#workspaces { padding: 0px 6px; }
+#workspaces button { color: #4a5a75; padding: 0px 8px; }
+#workspaces button.active { color: #00aaff; background: transparent; }
+#clock { color: #ffffff; border-color: #007acc; }
+#window { margin-left: 0px; }
+#tray { padding: 0px 10px; }
+#memory { margin: 4px 6px; padding: 0 8px; }
 
-#workspaces button {
-    color: #4a5a75;
-    padding: 0px 8px;
-}
+#custom-shutdown:hover { background-color: #f38ba8; color: #11111b; }
+#custom-reboot:hover { background-color: #fab387; color: #11111b; }
+#custom-logout:hover { background-color: #f9e2af; color: #11111b; }
+#custom-wallpaper:hover { background-color: #c9a063; color: #05080f; }
 
-#workspaces button.active {
-    color: #00aaff;
-    background: transparent;
-}
-
-#clock {
-    color: #ffffff;
-    border-color: #007acc;
-}
-
-#window {
-    margin-left: 0px;
-}
-
-#tray {
-    padding: 0px 10px;
-}
-
-#memory {
-    margin-right: 6px;
-    margin-left: 6px;
-    padding: 0 8px;
-}
-
-/* === CAVA (visualizador de áudio) === */
-#cava {
-    color: #007acc;
-    font-size: 16px;
-    padding: 0 6px;
-}
-
-/* === IDLE INHIBITOR (cafeteria mode) === */
-#idle_inhibitor.activated {
-    color: #c9a063;
-    border-color: #c9a063;
-}
-
-/* === LANGUAGE (idioma do teclado) === */
-#language {
-    color: #c9a063;
-    border-color: #c9a063;
-}
-
-/* === HOVER DOS BOTÕES DE POWER === */
-#custom-shutdown:hover {
-    background-color: #f38ba8; /* Vermelho ao passar o mouse no Desligar */
-    color: #11111b;
-}
-
-#custom-reboot:hover {
-    background-color: #fab387; /* Laranja ao passar o mouse no Reiniciar */
-    color: #11111b;
-}
-
-#custom-logout:hover {
-    background-color: #f9e2af; /* Amarelo ao passar o mouse no Deslogar */
-    color: #11111b;
-}
-
-#custom-wallpaper:hover {
-    background-color: #c9a063; /* Dourado TioSEUS */
-    color: #05080f;
-}
-
-/* === BOTÕES CUSTOM === */
 #custom-shutdown,
 #custom-reboot,
 #custom-logout,
@@ -118,3 +52,7 @@ window#waybar {
     font-size: 13px;
     font-weight: bold;
 }
+
+#battery.warning { color: #f9e2af; }
+#battery.critical { color: #f38ba8; }
+#battery.charging { color: #00cca7; }
