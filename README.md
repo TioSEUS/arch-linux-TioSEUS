@@ -13,33 +13,43 @@ chmod +x install.sh validate.sh modules/*.sh
 ./install.sh
 
 arch-linux-TioSEUS/
-├── install.sh              # Orquestrador principal (com backup + validação)
-├── validate.sh             # Validação pré-commit (rode antes de commitar as alterações)
-├── modules/                # Scripts modulares (executados em ordem numérica)
-│   ├── 00-check.sh         # Verificações do sistema (Arch Linux, yay/paru, internet)
-│   ├── 01-dependencies.sh  # Instalação de todos os pacotes essenciais do sistema
-│   ├── 02-fish.sh          # Configuração e otimização do Fish Shell
-│   ├── 03-hyprland.sh      # Instalação e ajustes do gerenciador de janelas Hyprland
-│   ├── 04-kitty.sh         # Configuração do emulador de terminal Kitty
-│   ├── 05-rofi.sh          # Configuração completa do Rofi (Launcher + Powermenu + Wi-Fi)
-│   ├── 06-hyprpaper.sh     # Inicialização do Hyprpaper com caminhos absolutos
-│   ├── 07-wallpapers.sh    # Implantação da coleção de papéis de parede
-│   ├── 08-waybar.sh        # Configuração da barra de status Waybar + integração Darkman
-│   ├── 09-swaync.sh        # Central de notificações SwayNC + estilo personalizado
-│   ├── 10-sddm-theme.sh    # Aplicação do tema para a tela de login SDDM (requer sudo)
-│   ├── 11-superfile.sh     # Gerenciador de arquivos para terminal Superfile + configs
-│   ├── 12-mangohud.sh      # Menu de monitoramento de jogos MangoHud + perfil pronto
-│   ├── 13-cava.sh          # Visualizador de áudio CAVA + shaders de efeito
-│   ├── 14-fastfetch.sh     # Personalização das informações do sistema com Fastfetch
-│   ├── 15-scripts.sh       # Scripts utilitários e auxiliares do ambiente gráfico
-│   └── 16-final.sh         # Tarefas pós-instalação e limpeza de arquivos temporários
-├── ~/.config/hypr/
-│   ├── hyprland.conf           # Apenas faz source dos outros
-│   ├── monitors.conf           # Configuração de monitores
-│   ├── workspaces.conf         # Regras de workspaces
-│   ├── keybinds.conf           # Atalhos de teclado
-│   ├── window.conf             # Windowrules + decoração
-│   ├── autostart.conf          # Apps que iniciam com o Hyprland
-│   ├── hyprenv.conf            # Variáveis de ambiente (toolkit/XDG/Qt/jogos)
-│   └── userconf.conf           # Input + visual + misc + animações
-└── README.md               # Documentação do projeto
+├── setup.sh                          ← 1 script que faz tudo
+├── packages.txt                      ← pacotes oficiais (pacman)
+├── aur.txt                           ← pacotes AUR (yay)
+├── README.md
+└── dotfiles/
+    ├── hypr/
+    │   ├── hyprland.conf             ← loader (faz source dos outros)
+    │   ├── monitors.conf             ← placeholder
+    │   ├── workspaces.conf
+    │   ├── hyprenv.conf
+    │   ├── userconf.conf             ← blur OFF pra Intel antiga
+    │   ├── autostart.conf            ← LIMPO sem duplicatas
+    │   ├── window.conf               ← sintaxe blocos v0.46+
+    │   ├── keybinds.conf
+    │   ├── wallpaper.sh              ← com fallback (swww/hyprpaper/swaybg)
+    │   └── scripts/
+    │       ├── gamemode.sh
+    │       └── restart.sh
+    ├── fish/config.fish              ← editor fallback + start-hyprland
+    ├── kitty/kitty.conf
+    ├── rofi/
+    │   ├── config.rasi               ← LIMPO
+    │   ├── colors/tioseus.rasi
+    │   ├── launchers/type-3/...
+    │   ├── powermenu/type-4/...
+    │   └── rofi-wifi-menu.sh
+    ├── waybar/
+    │   ├── config.jsonc              ← ÚNICO (sem symlinks)
+    │   └── style.css
+    ├── swaync/
+    │   ├── config.json
+    │   └── style.css
+    ├── hyprpaper.conf                ← placeholder
+    ├── mangohud/mangohud.conf
+    ├── cava/
+    │   ├── config
+    │   └── shaders/
+    ├── fastfetch/config.jsonc
+    ├── scripts/muda_wallpaper.sh
+    └── sddm-theme/
