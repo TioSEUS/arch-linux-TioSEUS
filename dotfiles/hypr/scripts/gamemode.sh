@@ -7,9 +7,4 @@ if [ "$HYPRGAMEMODE" = 1 ]; then
 else
     hyprctl --batch "keyword animations:enabled 1; keyword decoration:shadow:enabled 1; keyword general:gaps_in 4; keyword general:gaps_out 10; keyword general:border_size 2; keyword decoration:rounding 12"
     notify-send -e -u normal "Gamemode" "desativado" 2>/dev/null
-fi    # Remove a windowrule de opacity que foi adicionada
-    hyprctl keyword "windowrule remove, ^(.*)$" 2>/dev/null
-
-    notify-send -e -u normal -i "$notif" "Gamemode:" "desativado" 2>/dev/null || \
-        notify-send -e -u normal "Gamemode" "desativado"
 fi
