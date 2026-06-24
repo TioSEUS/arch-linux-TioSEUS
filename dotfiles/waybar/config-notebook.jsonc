@@ -1,0 +1,109 @@
+{
+    "layer": "top",
+    "position": "top",
+    "mode": "dock",
+    "exclusive": true,
+    "passthrough": false,
+    "gtk-layer-shell": true,
+    "height": 38,
+    "margin-top": 8,
+    "margin-left": 10,
+    "margin-right": 10,
+
+    "modules-left": ["custom/shutdown", "custom/reboot", "custom/logout", "hyprland/window", "custom/wallpaper"],
+    "modules-center": ["hyprland/workspaces"],
+    "modules-right": ["cpu", "memory", "pulseaudio", "pulseaudio#microphone", "bluetooth", "network", "battery", "tray", "custom/notification", "clock"],
+
+    "custom/shutdown": {
+       "format": "⏻ ",
+       "tooltip": false,
+       "on-click": "systemctl poweroff"
+    },
+    "custom/reboot": {
+       "format": "⭮ ",
+       "tooltip": false,
+       "on-click": "systemctl reboot"
+    },
+    "custom/logout": {
+       "format": "󰈆 ",
+       "tooltip": false,
+       "on-click": "hyprctl dispatch exit"
+    },
+    "hyprland/window": {
+        "format": " {} ",
+        "separate-outputs": true,
+        "max-length": 20
+    },
+    "custom/wallpaper": {
+        "format": "󰋩 ",
+        "on-click": "muda-wallpaper",
+        "tooltip-format": "Clique para trocar o papel de parede"
+    },
+    "hyprland/workspaces": {
+        "disable-scroll": true,
+        "all-outputs": true,
+        "format": "{name}"
+    },
+    "cpu": {
+        "interval": 2,
+        "format": " {usage}%",
+        "max-length": 10
+    },
+    "memory": {
+        "interval": 10,
+        "format": "󰍛 {used:0.1f}GB / {total:0.0f}GB",
+        "tooltip-format": "Usada: {used:0.1f}GB\nDisponível: {avail:0.1f}GB"
+    },
+    "pulseaudio": {
+        "format": "{icon} {volume}%",
+        "format-muted": "󰝟 Muted",
+        "format-icons": { "default": ["󰕿", "󰖀", "󰕾"] },
+        "on-click": "pavucontrol",
+        "on-scroll-up": "pactl set-sink-volume @DEFAULT_SINK@ +5%",
+        "on-scroll-down": "pactl set-sink-volume @DEFAULT_SINK@ -5%",
+        "scroll-step": 5
+    },
+    "pulseaudio#microphone": {
+        "format": "{format_source}",
+        "format-source": " {volume}%",
+        "format-source-muted": " Muted",
+        "on-click": "pavucontrol",
+        "scroll-step": 5
+    },
+    "bluetooth": {
+        "format": " {status}",
+        "format-disabled": "󰂲",
+        "format-connected": "󰂱 {device_alias}",
+        "on-click": "exec blueman-manager"
+    },
+    "network": {
+        "format-wifi": "󰤨 {signalStrength}%",
+        "format-ethernet": "󰈀 ",
+        "format-disconnected": "󰤮 ",
+        "on-click": "kitty -e nmtui"
+    },
+    "battery": {
+        "interval": 30,
+        "states": { "good": 95, "warning": 30, "critical": 20 },
+        "format": "{capacity}% {icon}",
+        "format-charging": "{capacity}% 󰂄",
+        "format-plugged": "{capacity}% 󰂄",
+        "format-icons": ["󰁻", "󰁼", "󰁾", "󰂀", "󰂂", "󰁹"]
+    },
+    "tray": { "icon-size": 16, "spacing": 10 },
+    "custom/notification": {
+        "tooltip": false,
+        "format": "{icon}",
+        "format-icons": {
+            "notification": "<span foreground='red'><sup>•</sup></span>",
+            "none": ""
+        },
+        "return-type": "json",
+        "exec-if": "which swaync-client",
+        "exec": "swaync-client -swb",
+        "on-click": "swaync-client -t -sw",
+        "on-click-right": "swaync-client -d -sw",
+        "escape": true
+    },
+    "clock": { "format": "{:%H:%M}" }
+}
