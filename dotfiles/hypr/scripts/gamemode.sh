@@ -13,5 +13,3 @@ fi    # Remove a windowrule de opacity que foi adicionada
     notify-send -e -u normal -i "$notif" "Gamemode:" "desativado" 2>/dev/null || \
         notify-send -e -u normal "Gamemode" "desativado"
 fi
-
-hyprctl reload
