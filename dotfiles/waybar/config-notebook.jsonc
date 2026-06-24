@@ -37,7 +37,7 @@
     "custom/wallpaper": {
         "format": "󰋩 ",
         "on-click": "muda-wallpaper",
-        "tooltip-format": "Clique para trocar o papel de parede"
+        "tooltip-format": "Trocar papel de parede"
     },
     "hyprland/workspaces": {
         "disable-scroll": true,
@@ -52,7 +52,7 @@
     "memory": {
         "interval": 10,
         "format": "󰍛 {used:0.1f}GB / {total:0.0f}GB",
-        "tooltip-format": "Usada: {used:0.1f}GB\nDisponível: {avail:0.1f}GB"
+        "tooltip-format": "Usada: {used:0.1f}GB\nDisponível: {avail:0.1f}GB\nTotal: {total:0.1f}GB"
     },
     "pulseaudio": {
         "format": "{icon} {volume}%",
