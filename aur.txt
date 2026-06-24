@@ -1,0 +1,6 @@
+hyprpaper
+hyprshot-bin
+wallust-bin
+mpvpaper-bin
+ttf-cascadia-code-nerd
+bibata-cursor-theme-bin
