@@ -7,7 +7,27 @@ Um instalador automatizado e modular para o gerenciador de janelas Hyprland no A
 Para clonar o repositório e aplicar as configurações no seu sistema, execute os seguintes comandos no terminal:
 
 ```bash
+Instalação
+git clone https://github.com/TioSEUS/arch-linux-TioSEUS.gitcd arch-linux-TioSEUSchmod +x setup.sh./setup.sh
 
+O que o setup.sh faz
+Detecta CPU (Intel/AMD) e instala o microcode certo
+Detecta GPU (AMD/NVIDIA/Intel) por vendor ID e instala drivers
+Instala pacotes de packages.txt (pacman) e aur.txt (yay)
+Faz backup das configs atuais em ~/.config-backup-*
+Copia dotfiles para ~/.config/
+Seta fish como shell padrão
+Instala tema SDDM em /usr/share/sddm/themes/tioseus
+Pós-instalação
+Reinicie: systemctl reboot
+No SDDM, escolha "Hyprland"
+Edite ~/.config/hypr/monitors.conf com seu monitor
+Se for notebook, descomente battery em ~/.config/waybar/config.jsonc
+Atalhos do fish
+conf-hypr → edita hyprland.conf
+conf-waybar → edita waybar config
+conf-rofi → edita rofi config
+conf-swaync → edita swaync config
 
 arch-linux-TioSEUS/
 ├── setup.sh                          ← 1 script que faz tudo
