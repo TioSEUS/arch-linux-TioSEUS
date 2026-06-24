@@ -29,6 +29,9 @@ cp "$DOT/hypr/scripts/restart.sh"             ~/.config/hypr/scripts/
 cp "$DOT/hypr/scripts/auto-config-monitors.sh" ~/.config/hypr/scripts/
 chmod +x ~/.config/hypr/scripts/*.sh
 
+cp "$DOT/hypr/scripts/waybar-mode.sh"  ~/.config/hypr/scripts/
+chmod +x ~/.config/hypr/scripts/waybar-mode.sh
+
 echo "  [OK] Hyprland split em 8 arquivos + 3 scripts auxiliares instalado"
 echo "    • hyprland.conf   (loader)"
 echo "    • monitors.conf   (placeholder — gerado pelo auto-config)"
