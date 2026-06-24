@@ -7,10 +7,7 @@ Um instalador automatizado e modular para o gerenciador de janelas Hyprland no A
 Para clonar o repositório e aplicar as configurações no seu sistema, execute os seguintes comandos no terminal:
 
 ```bash
-git clone [https://github.com/TioSEUS/arch-linux-TioSEUS.git](https://github.com/TioSEUS/arch-linux-TioSEUS.git)
-cd arch-linux-TioSEUS
-chmod +x install.sh validate.sh modules/*.sh
-./install.sh
+
 
 arch-linux-TioSEUS/
 ├── setup.sh                          ← 1 script que faz tudo
