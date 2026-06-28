@@ -1,5 +1,0 @@
-/**
- * Importa a paleta TioSEUS
- */
-
-@import "~/.config/rofi/colors/tioseus.rasi"

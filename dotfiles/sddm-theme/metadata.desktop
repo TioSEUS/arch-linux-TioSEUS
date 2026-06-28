@@ -1,9 +1,0 @@
-[SddmGreeterTheme]
-Name=TioSEUS
-Description=TioSEUS SDDM Theme - Anime gold/blue dark
-Author=TioSEUS
-Type=sddm-theme
-MainScript=Main.qml
-ConfigFile=theme.conf
-QtVersion=6
-Website=https://github.com/TioSEUS/arch-linux-TioSEUS

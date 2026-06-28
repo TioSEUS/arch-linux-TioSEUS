@@ -1,5 +1,0 @@
-/**
- * Importa a paleta TioSEUS para o powermenu
- */
-
-@import "~/.config/rofi/colors/tioseus.rasi"
