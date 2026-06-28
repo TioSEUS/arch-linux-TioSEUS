@@ -66,11 +66,8 @@ cp -r $DOTFILES_DIR/MangoHud/* ~/.config/MangoHud/ 2>/dev/null
 chmod +x ~/.config/hypr/wallpaper.sh
 
 # --- 7. FIX DO Ç (NATIVO) ---
-echo "⌨️ Aplicando fix do Ç..."
-cat <<EOF > "$HOME/.XCompose"
-<dead_acute> <c> : "ç" U00E7
-<dead_acute> <C> : "Ç" U00C7
-EOF
+echo "⌨️ Configurando o mapa nativo de caracteres para o 'ç'..."
+printf "<dead_acute> <c> : \"ç\" U00E7\n<dead_acute> <C> : \"Ç\" U00C7\n" > "$HOME/.XCompose"
 
 chsh -s /usr/bin/fish
 
