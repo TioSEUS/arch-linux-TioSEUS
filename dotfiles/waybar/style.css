@@ -1,0 +1,32 @@
+@import url("../../.cache/matugen/colors-waybar.css");
+
+window#waybar { background: transparent; }
+
+#window, #workspaces, #cpu, #memory, #custom-gpu, 
+#pulseaudio, #pulseaudio\.microphone, #bluetooth, 
+#network, #tray, #custom-notification, #clock,
+#custom-shutdown, #custom-reboot, #custom-logout, #custom-wallpaper {
+    background-color: #05080f; 
+    color: @on_surface;        
+    border: 2px solid @primary; 
+    border-radius: 8px;
+    padding: 0px 10px;
+    margin: 4px 2px;
+    font-family: "JetBrainsMono Nerd Font", "Fira Code", sans-serif;
+    font-size: 13px;
+    font-weight: bold;
+}
+
+#workspaces { padding: 0px 6px; }
+#workspaces button { color: rgba(255, 255, 255, 0.4); padding: 0px 8px; }
+#workspaces button.active { color: @primary; background: transparent; }
+
+#clock { color: @on_surface; border-color: @secondary; }
+#window { margin-left: 0px; }
+#tray { padding: 0px 10px; }
+#memory { margin-right: 6px; margin-left: 6px; padding: 0 8px; }
+
+#custom-shutdown:hover { background-color: #f38ba8; color: #11111b; }
+#custom-reboot:hover { background-color: #fab387; color: #11111b; }
+#custom-logout:hover { background-color: #f9e2af; color: #11111b; }
+#custom-wallpaper:hover { background-color: @primary; color: @on_primary; }
