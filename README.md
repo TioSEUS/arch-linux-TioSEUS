@@ -28,7 +28,7 @@ arch-linux-TioSEUS/
 ├── install.sh
 ├── setup.sh
 └── README.md
-
+```
 ---
 
 ## 📦 Instalação (Automática)
