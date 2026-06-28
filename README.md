@@ -2,7 +2,9 @@
 
 Este repositório contém meus dotfiles pessoais e scripts de automação para um ambiente **Hyprland** de alta performance, minimalista e com transições dinâmicas de cores.
 
-## 🛠️ O que está incluso?
+## 🛠️ Estrutura do Projeto
+
+```text
 arch-linux-TioSEUS/
 ├── dotfiles/
 │   ├── hypr/
